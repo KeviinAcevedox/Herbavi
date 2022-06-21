@@ -1,0 +1,39 @@
+.carta {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2%;
+    background-color: #A68BA5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+h2 {
+    text-align: center;
+    font-size: px;
+    font-family: 'Times New Roman';
+    margin-bottom: 40px;
+}
+
+input {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+label {
+    font-family: 'Times New Roman';
+}
+
+.contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-boton button {
+    width: 60%;
+    margin-top: 10px;
+    background-color: #5C5D67;
+    border-radius: 25px;
+}

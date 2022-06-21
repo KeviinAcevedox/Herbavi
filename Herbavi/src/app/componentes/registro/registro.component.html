@@ -1,0 +1,64 @@
+<div class="container carta">
+    <div class="row justify-content-start">
+        <div class="col-4">
+            <div class="example-button-container">
+                <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="regresar()">arrow_back</mat-icon>            </div>
+        </div>
+        <div class="col-4">
+            <h2>Registro</h2>
+        </div>
+    </div>
+    <div class="row formulario">
+        <form #registroForm="ngForm" novalidate>
+            <div class="row">
+                <div class="col-4">
+                    <label>Nombre</label>
+                    <div class="form-group">
+                        <input type="string" class="form-control" id="nombre-id" #nombre1="ngModel"  required name="nombre"  [(ngModel)]="nombre">
+                    </div>
+                </div>
+                <div class="col">
+                    <label>Apellidos</label>
+                    <div class="form-group">
+                        <input type="string" class="form-control" id="apellidos-id" #apellidos1="ngModel"  required name="apellidos"  [(ngModel)]="apellidos">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Dirección de correo electrónico</label>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="correo-id" #correo1="ngModel"  required name="correo"  [(ngModel)]="correo">
+                    </div>              
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Número de teléfono</label>
+                    <div class="form-group col-4">
+                        <input type="number" class="form-control" id="telefono-id" #telefono="ngModel"  required name="telefono"  [(ngModel)]="numero_telefono">
+                    </div>              
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Direccion de residencia exacta</label>
+                    <div class="form-group">
+                        <input type="string" class="form-control" id="residencia-id" #residencia="ngModel"  required name="residencia"  [(ngModel)]="direccion_residencia">
+                    </div>              
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Nombre de usuario</label>
+                    <div class="form-group col-4">
+                        <input type="string" class="form-control" id="usuario-id" #usuario="ngModel"  required name="usuario"  [(ngModel)]="nombre_usuario">
+                    </div>              
+                </div>
+            </div>
+            <div class="contenedor-boton">
+                <button [disabled]="registroForm.form.invalid" type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+        </form>
+    </div>
+</div>

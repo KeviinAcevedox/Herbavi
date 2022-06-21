@@ -1,0 +1,24 @@
+.seccionPrincipal{
+    width: 25%;
+    margin: 0 auto;
+    margin-top: 10%;
+
+    
+}
+
+.contenedorFilaPrincipal{
+    background: #696969;
+    border: 3px solid;
+    border-radius: 20px;
+}
+
+.hCentrado{
+    font-family: "Times New Roman", Times, serif;
+    padding-top: 50px;
+    text-align: center;  
+    padding-bottom: 20px;
+}
+
+.botonEntrar{
+    padding-bottom: 20px;
+}
