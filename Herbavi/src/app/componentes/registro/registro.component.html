@@ -1,9 +1,15 @@
-<div class="container carta">
-    <div class="row justify-content-start">
+<div class="container carta"
+[ngClass]="{'web-landscape': responsive_flags.web_landscape,
+'tablet-portrait': responsive_flags.tablet_portrait,
+'tablet-landscape': responsive_flags.tablet_landscape,
+'smartphone-portrait': responsive_flags.smartphone_portrait,
+'smartphone-landscape': responsive_flags.smartphone_landscape}">
+
+    <div class="row justify-content-start align-items-start cabecera">
         <div class="col-4">
             <div class="example-button-container">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="regresar()">arrow_back</mat-icon>            </div>
-        </div>
+            </div>
         <div class="col-4">
             <h2>Registro</h2>
         </div>

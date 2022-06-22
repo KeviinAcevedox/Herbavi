@@ -1,43 +1,218 @@
-.carta {
-    width: 30%;
-    margin: 0 auto;
-    margin-top: 10%;
-    background-color: #A68BA5;
+/* CSS Web Landscape ******************************************************* */
+.carta.web-landscape {
+    width: 35%;
+    margin-top: 15%;
+    background-color: #DFE2CF;
     padding-top: 30px;
     padding-bottom: 30px;
     padding-right: 20px;
     padding-left: 20px;
-    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
-h2 {
+.carta.web-landscape h2 {
     text-align: center;
-    font-size: px;
+    font-size: 40px;
     font-family: 'Cooperplate', Fantasy;
     margin-bottom: 40px;
 }
 
-input {
+.carta.web-landscape input {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.contenedor-boton {
+.carta.web-landscape .contenedor-boton {
     text-align: center;
 }
 
-.contenedor-boton button {
+.carta.web-landscape .contenedor-boton button {
     width: 60%;
     margin-top: 10px;
-    background-color: #5C5D67;
+    background-color: #764248;
     border-radius: 25px;
 }
 
-.enlace {
+.carta.web-landscape .enlace {
     text-align: center;
     margin-top: 20px;
     cursor: pointer;
     color: blue;
 }
+
+/* CSS Tablet Portrait ******************************************************* */
+.carta.tablet-portrait {
+    width: 80%;
+    margin-top: 30%;
+    background-color: #DFE2CF;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carta.tablet-portrait h2 {
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Cooperplate', Fantasy;
+    margin-bottom: 40px;
+}
+
+.carta.tablet-portrait input {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.carta.tablet-portrait .contenedor-boton {
+    text-align: center;
+}
+
+.carta.tablet-portrait .contenedor-boton button {
+    width: 60%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+}
+
+.carta.tablet-portrait .enlace {
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    color: blue;
+}
+
+/* CSS Tablet Landscape ******************************************************* */
+.carta.tablet-landscape {
+    width: 50%;
+    margin-top: 10%;
+    background-color: #DFE2CF;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carta.tablet-landscape h2 {
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Cooperplate', Fantasy;
+    margin-bottom: 40px;
+}
+
+.carta.tablet-landscape input {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.carta.tablet-landscape .contenedor-boton {
+    text-align: center;
+}
+
+.carta.tablet-landscape .contenedor-boton button {
+    width: 60%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+}
+
+.carta.tablet-landscape .enlace {
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    color: blue;
+}
+
+/* CSS Smartphone Portrait ******************************************************* */
+.carta.smartphone-portrait {
+    width: 100%;
+    height: 100%;
+    background-color: #DFE2CF;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carta.smartphone-portrait h2 {
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Cooperplate', Fantasy;
+    margin-top: 40%;
+    margin-bottom: 40px;
+}
+
+.carta.smartphone-portrait input {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.carta.smartphone-portrait .contenedor-boton {
+    text-align: center;
+}
+
+.carta.smartphone-portrait .contenedor-boton button {
+    width: 60%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+}
+
+.carta.smartphone-portrait .enlace {
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    color: blue;
+}
+
+/* CSS Smartphone Landscape ******************************************************* */
+.carta.smartphone-landscape {
+    width: 100%;
+    height: 100%;
+    background-color: #DFE2CF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carta.smartphone-landscape h2 {
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Cooperplate', Fantasy;
+    margin-bottom: 10px;
+}
+
+.carta.smartphone-landscape input {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.carta.smartphone-landscape .contenedor-boton {
+    text-align: center;
+}
+
+.carta.smartphone-landscape .contenedor-boton button {
+    width: 60%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+}
+
+.carta.smartphone-landscape .enlace {
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    color: blue;
+}
+
+
+
+
 

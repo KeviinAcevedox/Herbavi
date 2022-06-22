@@ -1,4 +1,9 @@
-<div class="container carta">
+<div class="container carta" 
+[ngClass]="{'web-landscape': responsive_flags.web_landscape,
+'tablet-portrait': responsive_flags.tablet_portrait,
+'tablet-landscape': responsive_flags.tablet_landscape,
+'smartphone-portrait': responsive_flags.smartphone_portrait,
+'smartphone-landscape': responsive_flags.smartphone_landscape}">
     <div class="row align-items-center justify-content-center">
         <div class="col">
             <h2>Herbavi</h2>
