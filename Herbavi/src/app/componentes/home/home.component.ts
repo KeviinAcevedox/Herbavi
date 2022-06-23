@@ -18,6 +18,16 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  // Método para seleccionar el subcomponente carrito
+  carrito(){
+    this.router.navigate(['/Herbavi-Home/Carrito']);
+  }
+
+  // Método para cargar el subcomponente de productos
+  productos(){
+    this.router.navigate(['/Herbavi-Home/Productos']);
+  }
+
   ngOnInit(): void {
   }
 

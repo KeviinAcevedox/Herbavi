@@ -1,8 +1,17 @@
 <div class="container-fluid contenedor-productos">
     <div class="row align-self-center justify-content-start descripcion">
         <div class="col-2 align-self-center">
-            Categorías 
-            <mat-icon>list</mat-icon>
+            <span>Categorías</span>
+            <button mat-icon-button [matMenuTriggerFor]="categorias">
+                <mat-icon>list</mat-icon>
+              </button>
+            <mat-menu #categorias="matMenu">
+                <mat-checkbox class="mat-menu-item">Frutas y Verduras</mat-checkbox> 
+                <mat-checkbox class="mat-menu-item">Carnes</mat-checkbox> 
+                <mat-checkbox class="mat-menu-item">Bebidas Alcohólicas</mat-checkbox>
+                <mat-checkbox class="mat-menu-item">Bebidas</mat-checkbox>
+                <mat-checkbox class="mat-menu-item">Automedicación</mat-checkbox>  
+            </mat-menu>
         </div>
         <div class="col-2 align-self-center">
             Resultados encontrados: 12
@@ -22,7 +31,7 @@
         <div class="col align-self-center">
             <div class="container">
                 <div class="row">
-                    <div class="col-2" *ngFor="let producto of [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7]">
+                    <div class="col-3" *ngFor="let producto of [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7]">
                         <div class="card">
                             <div class="producto-disponible">
                                 Featured {{producto}}
