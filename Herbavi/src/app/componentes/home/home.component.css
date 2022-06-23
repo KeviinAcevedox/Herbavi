@@ -1,22 +1,147 @@
-
-.contenedor .spacer {
+/* CSS Web Landscape ******************************************************* */
+.contenedor.web-landscape .spacer {
     flex: 1 1 auto;
   }
 
-.contenedor .titulo-toolbar{
+.contenedor.web-landscape .titulo-toolbar{
     font-size: 35px;
     margin-left: 20px;;
 }
 
-.contenedor .toolbar input{
+.contenedor.web-landscape .toolbar input{
     margin-left: 60px;
     width: 20%;
     text-align: center;
 }
 
-.contenedor .toolbar mat-icon{
+.contenedor.web-landscape .toolbar mat-icon{
     font-size: 30px;
     margin-left: 10px;
     margin-right: 20px;
 }
 
+/* CSS Tablet Portrait ******************************************************* */
+.contenedor.tablet-portrait .spacer {
+    flex: 1 1 auto;
+  }
+
+  .contenedor.tablet-portrait{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+  }
+
+.contenedor.tablet-portrait .titulo-toolbar{
+    font-size: 35px;
+    margin-left: 20px;;
+}
+
+.contenedor.tablet-portrait .toolbar input{
+    margin-left: 60px;
+    width: 30%;
+    text-align: center;
+}
+
+.contenedor.tablet-portrait .toolbar mat-icon{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+/* CSS Tablet Landscape ******************************************************* */
+.contenedor.tablet-landscape .spacer {
+    flex: 1 1 auto;
+  }
+
+.contenedor.tablet-landscape{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+  }
+
+.contenedor.tablet-landscape .titulo-toolbar{
+    font-size: 35px;
+    margin-left: 20px;;
+}
+
+.contenedor.tablet-landscape .toolbar input{
+    margin-left: 60px;
+    width: 20%;
+    text-align: center;
+}
+
+.contenedor.tablet-landscape .toolbar mat-icon{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+/* CSS Smartphone Portrait ******************************************************* */
+.contenedor.tablet-landscape .spacer {
+    flex: 1 1 auto;
+  }
+
+.contenedor.smartphone-portrait{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+  }
+
+.contenedor.smartphone-portrait .titulo-toolbar{
+    font-size: 20px;
+    margin-left: 5px;
+    margin-right: 30%;
+}
+
+.contenedor.smartphone-portrait .toolbar input{
+    display: none;
+}
+.contenedor.smartphone-portrait .search-icon{
+    display: none;
+}
+
+.contenedor.smartphone-portrait .toolbar mat-icon{
+    font-size: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* CSS Smartphone Landscape ******************************************************* */
+.contenedor.tablet-landscape .spacer {
+    flex: 1 1 auto;
+  }
+
+.contenedor.smartphone-landscape{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+  }
+
+.contenedor.smartphone-landscape .titulo-toolbar{
+    font-size: 35px;
+    margin-left: 20px;
+    margin-right: 50%;
+}
+
+.contenedor.smartphone-landscape .toolbar input{
+    display: none;
+}
+
+.contenedor.smartphone-landscape .search-icon{
+    display: none;
+}
+
+
+.contenedor.smartphone-landscape .toolbar mat-icon{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 20px;
+}

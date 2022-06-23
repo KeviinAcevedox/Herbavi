@@ -1,4 +1,10 @@
-<div class="contenedor">
+<div class="contenedor"
+[ngClass]="{'web-landscape': responsive_flags.web_landscape,
+'tablet-portrait': responsive_flags.tablet_portrait,
+'tablet-landscape': responsive_flags.tablet_landscape,
+'smartphone-portrait': responsive_flags.smartphone_portrait,
+'smartphone-landscape': responsive_flags.smartphone_landscape}">
+    <div class="row align-items-center justify-content-center">
     <p>
         <mat-toolbar class="toolbar" color="primary">
             <button (click)="productos()" mat-icon-button class="example-icon">
@@ -6,14 +12,14 @@
             </button>
             <span class="titulo-toolbar">Herbavi</span>
             <input type="string" placeholder="Nombre de producto" class="form-control">
-            <button mat-icon-button class="favorite-icon">
+            <button mat-icon-button class="favorite-icon search-icon">
                 <mat-icon>search</mat-icon>
             </button>
             <span class="spacer"></span>
-            <button (click)="carrito()" mat-icon-button class="favorite-icon">
+            <button (click)="carrito()" mat-icon-button class="favorite-icon" matTooltip="Carrito de compras" matTooltipHideDelay="200">
                 <mat-icon matBadge="15" matBadgeColor="warn">local_grocery_store</mat-icon>
             </button>
-            <button mat-icon-button class="example-icon">
+            <button mat-icon-button matTooltip="Usuario" matTooltipHideDelay="200" class="example-icon">
                 <mat-icon>person</mat-icon>
             </button>
             <button (click)="regresar()" mat-icon-button class="example-icon">

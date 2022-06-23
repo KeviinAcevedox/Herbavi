@@ -1,6 +1,12 @@
-<div class="container-fluid contenedor-productos">
+<div class="container-fluid contenedor-productos"
+[ngClass]="{'web-landscape': responsive_flags.web_landscape,
+'tablet-portrait': responsive_flags.tablet_portrait,
+'tablet-landscape': responsive_flags.tablet_landscape,
+'smartphone-portrait': responsive_flags.smartphone_portrait,
+'smartphone-landscape': responsive_flags.smartphone_landscape}">
     <div class="row align-self-center justify-content-start descripcion">
-        <div class="col-2 align-self-center">
+        <div class="col-2 align-self-center"
+        [ngClass]="{'col-6': carta_smartphone}">
             <span>Categorías</span>
             <button mat-icon-button [matMenuTriggerFor]="categorias">
                 <mat-icon>list</mat-icon>
@@ -13,17 +19,9 @@
                 <mat-checkbox class="mat-menu-item">Automedicación</mat-checkbox>  
             </mat-menu>
         </div>
-        <div class="col-2 align-self-center">
-            Resultados encontrados: 12
-        </div>
-        <div class="col-2 offset-2 align-self-center" style="color: #BEEDAA;">
-            Producto Disponible
-        </div>
-        <div class="col-2 align-self-center" style="color: #E94F37;">
-            Producto Agotado
-        </div>
-        <div class="col-2 align-self-center" style="color: #67AAF9;">
-            Producto en carrito
+        <div class="col-2 align-self-center"
+        [ngClass]="{'col-6': carta_smartphone}">
+            Resultados encontrados: {{listaProductos.length}}
         </div>
     </div>
     <mat-divider></mat-divider>
@@ -31,10 +29,16 @@
         <div class="col align-self-center">
             <div class="container">
                 <div class="row">
-                    <div class="col-3" *ngFor="let producto of [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7]">
+                    <div [ngClass]="{'col-3': carta_web,
+                    'col-6': carta_tablet,
+                    'col-12': carta_smartphone}"
+                     *ngFor="let p of listaProductos">
                         <div class="card">
-                            <div class="producto-disponible">
-                                Featured {{producto}}
+                            <div 
+                            [ngClass]="{'producto-disponible': p.estado == 'disponible',
+                            'producto-agotado': p.estado == 'agotado',
+                            'producto-carrito': p.estado == 'carrito'}">
+                                {{p.nombre}}
                             </div>
                             <div class="img-container"> 
                                 <img src="assets/tomatos.png" alt="image">
@@ -43,16 +47,22 @@
                             <div class="card-body">
                                 <div class="row align-self-center justify-content-center">
                                     <div class="col">  
-                                        <h5 class="card-title">₡ 2500</h5>
+                                        <h5 class="card-title">₡ {{p.precio}}</h5>
                                     </div>
                                     <div class="col">
-                                        <mat-icon>info</mat-icon>
+                                        <mat-icon (click)="openDialog(p.nombre, p.descripcion)">info</mat-icon>
                                     </div>
                                 </div>
                               
-                              <div class="contenedor-boton">
-                                <button type="submit" class="btn btn-primary">Agregar</button>
-                            </div>
+                                <div class="contenedor-boton" *ngIf="p.estado == 'disponible'">
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                </div>
+                                <div class="contenedor-boton" *ngIf="p.estado == 'carrito'">
+                                    <button type="submit" class="btn btn-primary">Soltar</button>
+                                </div>
+                                <div class="contenedor-boton" *ngIf="p.estado == 'agotado'">
+                                    <button [disabled]="true" type="submit" class="btn btn-primary">Agregar</button>
+                                </div>
                             </div>
                         </div>
                     </div>

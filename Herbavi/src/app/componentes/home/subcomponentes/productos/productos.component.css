@@ -1,12 +1,13 @@
-.contenedor-productos .productos {
+/* CSS Web Landscape  ******************************************************* */
+.contenedor-productos.web-landscape .productos {
     width:100%;
-    height: 78vh;
+    height: 70vh;
     max-height: 100%;
     margin-top: 15px;
     overflow-y: scroll;
 }
 
-.descripcion {
+.contenedor-productos.web-landscape .descripcion {
     text-align: start;
     font-size: 18px;
     margin-bottom: 15px;
@@ -14,7 +15,7 @@
 }
 
 
-.card{
+.contenedor-productos.web-landscape .card{
     width: 100%;
     height: 300px;
     text-align: center;
@@ -22,11 +23,11 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
 }
-.card:hover {
+.contenedor-productos.web-landscape .card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
 
-.producto-disponible{
+.contenedor-productos.web-landscape .producto-disponible{
     font-size: 14px;
     background-color: #BEEDAA;
     font-family: 'Cooperplate', Fantasy;
@@ -34,14 +35,14 @@
     padding-bottom: 5px;
 }
 
-.producto-agotado{
+.contenedor-productos.web-landscape .producto-agotado{
     font-size: 14px;
     background-color: #E94F37;
     font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
-.producto-carrito{
+.contenedor-productos.web-landscape .producto-carrito{
     font-size: 14px;
     background-color: #67AAF9;
     font-family: 'Cooperplate', Fantasy;
@@ -49,27 +50,348 @@
     padding-bottom: 5px;
 }
 
-.card-body {
+.contenedor-productos.web-landscape .card-body {
     background-color: #E3C5BB;
     font-size: 14px;
 }
 
-.img-container {
+.contenedor-productos.web-landscape .img-container {
     width: 100%;
-    height: 110px;
+    height: 150px;
     background-color: #E3C5BB;
 }
 
-img{
+.contenedor-productos.web-landscape img{
     max-width: 100%;
     max-height: 100%;
 }
 
-.contenedor-boton {
+.contenedor-productos.web-landscape .contenedor-boton {
     text-align: center;
 }
 
-.contenedor-boton button {
+.contenedor-productos.web-landscape .contenedor-boton button {
+    width: 80%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+/* CSS Tablet Portrait ******************************************************* */
+.contenedor-productos.tablet-portrait .productos {
+    width:100%;
+    height: 80vh;
+    max-height: 100%;
+    margin-top: 15px;
+    overflow-y: scroll;
+}
+
+.contenedor-productos.tablet-portrait .descripcion {
+    text-align: start;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-family: 'Times New Roman';
+}
+
+
+.contenedor-productos.tablet-portrait .card{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.contenedor-productos.tablet-portrait .card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+.contenedor-productos.tablet-portrait .producto-disponible{
+    font-size: 14px;
+    background-color: #BEEDAA;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.tablet-portrait .producto-agotado{
+    font-size: 14px;
+    background-color: #E94F37;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.contenedor-productos.tablet-portrait .producto-carrito{
+    font-size: 14px;
+    background-color: #67AAF9;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.tablet-portrait .card-body {
+    background-color: #E3C5BB;
+    font-size: 14px;
+}
+
+.contenedor-productos.tablet-portrait .img-container {
+    width: 100%;
+    height: 150px;
+    background-color: #E3C5BB;
+}
+
+.contenedor-productos.tablet-portrait img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.contenedor-productos.tablet-portrait .contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-productos.tablet-portrait .contenedor-boton button {
+    width: 80%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+/* CSS Tablet Landscape  ******************************************************* */
+.contenedor-productos.tablet-landscape .productos {
+    width:100%;
+    height: 75vh;
+    max-height: 100%;
+    margin-top: 15px;
+    overflow-y: scroll;
+}
+
+.contenedor-productos.tablet-landscape .descripcion {
+    text-align: start;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-family: 'Times New Roman';
+}
+
+
+.contenedor-productos.tablet-landscape .card{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.contenedor-productos.tablet-landscape .card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+.contenedor-productos.tablet-landscape .producto-disponible{
+    font-size: 14px;
+    background-color: #BEEDAA;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.tablet-landscape .producto-agotado{
+    font-size: 14px;
+    background-color: #E94F37;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.contenedor-productos.tablet-landscape .producto-carrito{
+    font-size: 14px;
+    background-color: #67AAF9;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.tablet-landscape .card-body {
+    background-color: #E3C5BB;
+    font-size: 14px;
+}
+
+.contenedor-productos.tablet-landscape .img-container {
+    width: 100%;
+    height: 150px;
+    background-color: #E3C5BB;
+}
+
+.contenedor-productos.tablet-landscape img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.contenedor-productos.tablet-landscape .contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-productos.tablet-landscape .contenedor-boton button {
+    width: 80%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+/* CSS Smartphone Portrait  ******************************************************* */
+.contenedor-productos.smartphone-portrait .productos {
+    width: 100%;
+    height: 75vh;
+    max-height: 100%;
+    margin-top: 15px;
+    overflow-y: scroll;
+    
+}
+
+.contenedor-productos.smartphone-portrait .descripcion {
+    text-align: start;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-family: 'Times New Roman';
+}
+
+
+.contenedor-productos.smartphone-portrait .card{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.contenedor-productos.smartphone-portrait .card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+.contenedor-productos.smartphone-portrait .producto-disponible{
+    font-size: 14px;
+    background-color: #BEEDAA;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.smartphone-portrait .producto-agotado{
+    font-size: 14px;
+    background-color: #E94F37;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.contenedor-productos.smartphone-portrait .producto-carrito{
+    font-size: 14px;
+    background-color: #67AAF9;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.smartphone-portrait .card-body {
+    background-color: #E3C5BB;
+    font-size: 14px;
+}
+
+.contenedor-productos.smartphone-portrait .img-container {
+    width: 100%;
+    height: 150px;
+    background-color: #E3C5BB;
+}
+
+.contenedor-productos.smartphone-portrait img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.contenedor-productos.smartphone-portrait .contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-productos.smartphone-portrait .contenedor-boton button {
+    width: 80%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+/* CSS Smartphone Landscape  ******************************************************* */
+.contenedor-productos.smartphone-landscape .productos {
+    width:100%;
+    height: 60vh;
+    max-height: 100%;
+    margin-top: 5px;
+    overflow-y: scroll;
+}
+
+.contenedor-productos.smartphone-landscape .descripcion {
+    text-align: start;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-family: 'Times New Roman';
+}
+
+
+.contenedor-productos.smartphone-landscape .card{
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.contenedor-productos.smartphone-landscape .card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+.contenedor-productos.smartphone-landscape .producto-disponible{
+    font-size: 14px;
+    background-color: #BEEDAA;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.smartphone-landscape .producto-agotado{
+    font-size: 14px;
+    background-color: #E94F37;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.contenedor-productos.smartphone-landscape .producto-carrito{
+    font-size: 14px;
+    background-color: #67AAF9;
+    font-family: 'Cooperplate', Fantasy;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contenedor-productos.smartphone-landscape .card-body {
+    background-color: #E3C5BB;
+    font-size: 14px;
+}
+
+.contenedor-productos.smartphone-landscape .img-container {
+    width: 100%;
+    height: 150px;
+    background-color: #E3C5BB;
+}
+
+.contenedor-productos.smartphone-landscape img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.contenedor-productos.smartphone-landscape .contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-productos.smartphone-landscape .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
     background-color: #764248;
