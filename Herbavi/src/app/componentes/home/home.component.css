@@ -1,0 +1,22 @@
+
+.contenedor .spacer {
+    flex: 1 1 auto;
+  }
+
+.contenedor .titulo-toolbar{
+    font-size: 35px;
+    margin-left: 20px;;
+}
+
+.contenedor .toolbar input{
+    margin-left: 60px;
+    width: 20%;
+    text-align: center;
+}
+
+.contenedor .toolbar mat-icon{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+

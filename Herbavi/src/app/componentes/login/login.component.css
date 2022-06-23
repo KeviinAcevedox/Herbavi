@@ -1,15 +1,14 @@
 /* CSS Web Landscape ******************************************************* */
 .carta.web-landscape {
     width: 35%;
-    margin-top: 15%;
+    margin-top: 10%;
     background-color: #DFE2CF;
     padding-top: 30px;
     padding-bottom: 30px;
     padding-right: 20px;
     padding-left: 20px;
     border-radius: 10px;
-    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
-}
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;}
 
 .carta.web-landscape h2 {
     text-align: center;
@@ -51,7 +50,7 @@
     padding-right: 20px;
     padding-left: 20px;
     border-radius: 10px;
-    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 .carta.tablet-portrait h2 {
@@ -94,7 +93,7 @@
     padding-right: 20px;
     padding-left: 20px;
     border-radius: 10px;
-    box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 .carta.tablet-landscape h2 {

@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './componentes/home/home.component';
+import { CarritoComponent } from './componentes/home/subcomponentes/carrito/carrito.component';
+import { ProductosComponent } from './componentes/home/subcomponentes/productos/productos.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 
@@ -16,6 +19,20 @@ const routes: Routes = [
   {
     path:'Herbavi-Registro',
     component: RegistroComponent
+  },
+  {
+    path: 'Herbavi-Home',
+    component: HomeComponent,
+    children: [
+      {
+        path: 'Productos',
+        component: ProductosComponent
+      },
+      {
+        path: 'Carrito',
+        component: CarritoComponent
+      }
+     ]
   }
 ];
 

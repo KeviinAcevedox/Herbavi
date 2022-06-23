@@ -8,13 +8,18 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { LayoutModule } from '@angular/cdk/layout';
-
+import { HomeComponent } from './componentes/home/home.component';
+import { ProductosComponent } from './componentes/home/subcomponentes/productos/productos.component';
+import { CarritoComponent } from './componentes/home/subcomponentes/carrito/carrito.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    HomeComponent,
+    ProductosComponent,
+    CarritoComponent
   ],
   imports: [
     BrowserModule,
