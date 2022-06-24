@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Responsive } from 'src/app/modelos/responsive';
 import {MatDialog} from '@angular/material/dialog';
-import { CarritoComponent } from './subcomponentes/carrito/carrito.component';
 
 @Component({
   selector: 'app-home',
@@ -24,14 +23,7 @@ export class HomeComponent implements OnInit {
 
   // Método para abrir el carrito de compras
   carrito(){
-    const dialogRef = this.dialog.open(CarritoComponent,
-      {
-        width: '100%',
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.router.navigate(['/Herbavi-Home/Carrito']);
   }
 
   // Método para cargar el subcomponente de productos

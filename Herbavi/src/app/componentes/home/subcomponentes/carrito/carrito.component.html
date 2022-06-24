@@ -1,66 +1,69 @@
-<h2 mat-dialog-title style="text-align: center;">Carrito de compras</h2>
-<mat-dialog-content class="mat-typography">
-
-
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" style="width: 100%;">
-    <!-- Columna con el nombre del producto -->
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef>Nombre del producto</th>
-      <td mat-cell *matCellDef="let element">{{element.nombre}}</td>
-    </ng-container>
-  
-    <!-- Columna con la cantidad del producto -->
-    <ng-container matColumnDef="cantidad">
-      <th mat-header-cell *matHeaderCellDef>Cantidad</th>
-      <td mat-cell *matCellDef="let element">
-        <input type="number" style="width: 60px;
-        border-radius: 30px;
-        margin-right: 20px;
-        text-align:center;"
-        #cantidad="ngModel" [(ngModel)]="element.cantidad" min="1" max="30"
-         onKeyDown="return false" (change)="actualizarTotal($event)">
-        <span>{{element.cantidad}}</span>
-      </td>
-    </ng-container>
-  
-    <!-- Columna con el precio unitario del producto -->
-    <ng-container matColumnDef="precio">
-      <th mat-header-cell *matHeaderCellDef>Precio Unitario</th>
-      <td mat-cell *matCellDef="let element"> ₡ {{element.precio}}</td>
-    </ng-container>
-  
-    <!-- Columna del subtotal del producto -->
-    <ng-container matColumnDef="subtotal">
-      <th mat-header-cell *matHeaderCellDef>Subtotal</th>
-      <td mat-cell *matCellDef="let element">₡ {{element.precio * element.cantidad}}</td>
-    </ng-container>
-
-    <!-- Columna con un boton para eliminar el producto del carrito -->
-    <ng-container matColumnDef="eliminar">
-      <th mat-header-cell *matHeaderCellDef>Elimnar producto</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button class="favorite-icon search-icon" (click)="removeData(element)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <!-- Informacion de la compra -->
-  <div class="container" style="font-size: 18px; margin-top: 30px; margin-bottom: 30px;">
-    <div class="row justify-content-start">
-      <div class="col">
-        Cliente: Kevin Acevedo Rodríguez
-      </div>
-      <div class="col">
-        Total a pagar: ₡ {{total}}
-      </div>
-    </div>
+<div class="container-fluid contenedor-carrito"
+[ngClass]="{'web-landscape': responsive_flags.web_landscape,
+'tablet-portrait': responsive_flags.tablet_portrait,
+'tablet-landscape': responsive_flags.tablet_landscape,
+'smartphone-portrait': responsive_flags.smartphone_portrait,
+'smartphone-landscape': responsive_flags.smartphone_landscape}">
+    <div class="row align-self-center justify-content-start descripcion">
+  <div class="titulo-carrito">
+    <h2 mat-dialog-title>Carrito de compras</h2>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cerrar</button>
-  <button mat-button (click)="addData()" cdkFocusInitial>Confirmar</button>
-</mat-dialog-actions>
+  <div class="contenido-carrito">
+    <mat-dialog-content class="mat-typography">
+  
+  
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+        <!-- Columna con el nombre del producto -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre del producto</th>
+          <td mat-cell *matCellDef="let element">{{element.nombre}}</td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
+        </ng-container>
+      
+        <!-- Columna con la cantidad del producto -->
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+          <td mat-cell *matCellDef="let element">
+            <input type="number"
+            #cantidad="ngModel" [(ngModel)]="element.cantidad" min="1" max="30"
+            (change)="actualizarTotal($event)">
+          </td>
+          <td mat-footer-cell *matFooterCellDef>₡ {{total}}</td>
+        </ng-container>
+      
+        <!-- Columna con el precio unitario del producto -->
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef>Precio Unitario</th>
+          <td mat-cell *matCellDef="let element"> ₡ {{element.precio}}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <!-- Columna del subtotal del producto -->
+        <ng-container matColumnDef="subtotal">
+          <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+          <td mat-cell *matCellDef="let element">₡ {{element.precio * element.cantidad}}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+    
+        <!-- Columna con un boton para eliminar el producto del carrito -->
+        <ng-container matColumnDef="eliminar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="favorite-icon search-icon" (click)="removeData(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="content-row"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns" class="footer-row"></tr>
+      </table>
+    </mat-dialog-content>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-success">Realizar Compra</button>
+  </div>
+</div>
+
