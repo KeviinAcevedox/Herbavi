@@ -2,6 +2,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Responsive } from 'src/app/modelos/responsive';
+import {MatDialog} from '@angular/material/dialog';
+import { CarritoComponent } from './subcomponentes/carrito/carrito.component';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,7 @@ import { Responsive } from 'src/app/modelos/responsive';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private responsive: BreakpointObserver) { }
+  constructor(private route: ActivatedRoute, private router: Router, private responsive: BreakpointObserver, public dialog: MatDialog) { }
 
   // Objeto usado para mantener dimensiones responsive
   responsive_flags: Responsive = new Responsive();
@@ -20,9 +22,16 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  // Método para seleccionar el subcomponente carrito
+  // Método para abrir el carrito de compras
   carrito(){
-    this.router.navigate(['/Herbavi-Home/Carrito']);
+    const dialogRef = this.dialog.open(CarritoComponent,
+      {
+        width: '100%',
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   // Método para cargar el subcomponente de productos

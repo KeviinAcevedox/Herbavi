@@ -4,6 +4,9 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Producto } from 'src/app/modelos/producto';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Responsive } from 'src/app/modelos/responsive';
+import { PageEvent } from '@angular/material/paginator';
+
+
 
 @Component({
   selector: 'app-productos',
@@ -15,7 +18,10 @@ export class ProductosComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private responsive: BreakpointObserver) { }
 
-  
+  // Variables para controlar los productos por páginas
+  totalProducts: number = 100;
+  productsPerPage: number = 20;
+
   // Objeto usado para mantener dimensiones responsive
   responsive_flags: Responsive = new Responsive();
 
@@ -27,6 +33,9 @@ export class ProductosComponent implements OnInit {
   // Lista que contiene los productos a mostrar en la pantalla
   listaProductos: Producto[] = [];
 
+  // Variable para la selección de categoría
+  categoria: any;
+
   openDialog(nombre: string, descripcion: string) {
     this.dialog.open(InfoDialog, {
       data: {
@@ -35,6 +44,19 @@ export class ProductosComponent implements OnInit {
       }
     });
   }
+
+  // Este metodo se ejecuta cuando se presiona el boton de cambiar página
+  onChangedPage(pageData: PageEvent) {
+    console.log(pageData.pageIndex);
+  }
+
+  // Evento para cuando se selecciona un nuevo radio button
+  actualizarCategoria(nueva_categoria: string) {
+    if (nueva_categoria != this.categoria){
+      this.categoria = nueva_categoria;
+      console.log(nueva_categoria);
+    }
+}
 
   ngOnInit(): void {
     for (let i = 0; i < 20; i++){

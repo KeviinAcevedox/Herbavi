@@ -11,6 +11,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { HomeComponent } from './componentes/home/home.component';
 import { ProductosComponent } from './componentes/home/subcomponentes/productos/productos.component';
 import { CarritoComponent } from './componentes/home/subcomponentes/carrito/carrito.component';
+import { AdminComponent } from './componentes/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CarritoComponent } from './componentes/home/subcomponentes/carrito/carr
     RegistroComponent,
     HomeComponent,
     ProductosComponent,
-    CarritoComponent
+    CarritoComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

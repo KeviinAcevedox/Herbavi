@@ -12,11 +12,21 @@
                 <mat-icon>list</mat-icon>
               </button>
             <mat-menu #categorias="matMenu">
-                <mat-checkbox class="mat-menu-item">Frutas y Verduras</mat-checkbox> 
-                <mat-checkbox class="mat-menu-item">Carnes</mat-checkbox> 
-                <mat-checkbox class="mat-menu-item">Bebidas Alcohólicas</mat-checkbox>
-                <mat-checkbox class="mat-menu-item">Bebidas</mat-checkbox>
-                <mat-checkbox class="mat-menu-item">Automedicación</mat-checkbox>  
+                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Frutas y Verduras')">
+                    <mat-radio-group class="grid">
+                      <mat-radio-button value="Frutas y Verduras" [checked]="categoria == 'Frutas y Verduras'">Frutas y Verduras</mat-radio-button>
+                    </mat-radio-group>
+                </button>
+                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Bebidas')">
+                    <mat-radio-group class="grid" >
+                      <mat-radio-button value="Bebidas" [checked]="categoria=='Bebidas'">Bebidas</mat-radio-button>
+                    </mat-radio-group>
+                </button>
+                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Carnes')">
+                    <mat-radio-group class="grid" >
+                      <mat-radio-button value="Carnes" [checked]="categoria=='Carnes'">Carnes</mat-radio-button>
+                    </mat-radio-group>
+                </button>
             </mat-menu>
         </div>
         <div class="col-2 align-self-center"
@@ -71,3 +81,14 @@
         </div>
     </div>
 </div>
+
+<div class="footer">
+    <mat-paginator [length]="100"
+    [pageSize]="10"
+    (page)="onChangedPage($event)">
+    </mat-paginator>
+</div>
+
+
+
+
