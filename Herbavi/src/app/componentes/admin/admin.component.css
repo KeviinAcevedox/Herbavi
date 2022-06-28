@@ -1,31 +1,21 @@
-.rowx {
-     left: 0;
-    right: 0;
-    overflow: hidden;
-    position: absolute;
-}
-.scroll-y {
-    overflow-y: auto; 
-}
-
-.header.rowx {
-    height: 75px;
-    top: 0;
-}
-
-.body.rowx {
-    top: 75px;
-    bottom: 50px; 
-}
-
-.footer.rowx {
-    height: 50px;
-    bottom: 0; 
-}
-
-.cartica{
-    height: 300px;
-    width: 100%;
-    border: 2px solid black;
+/* CSS Web Landscape ******************************************************* */
+.contenedor .spacer {
+    flex: 1 1 auto;
   }
-  
+
+.contenedor .titulo-toolbar{
+    font-size: 35px;
+    margin-left: 20px;;
+}
+
+.contenedor .toolbar input{
+    margin-left: 60px;
+    width: 20%;
+    text-align: center;
+}
+
+.contenedor .toolbar mat-icon{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 20px;
+}

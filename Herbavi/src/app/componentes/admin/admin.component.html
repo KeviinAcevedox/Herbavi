@@ -1,16 +1,17 @@
-<div class="box">
-  <div class="row header">
-    <p><b>header</b>
-      <br />
-      <br />(sized to content)</p>
-  </div>
-  <div class="row content">
+<div class="contenedor">
+    <div class="row align-items-center justify-content-center">
     <p>
-      <b>content</b>
-      (fills remaining space)
-    </p>
-  </div>
-  <div class="row footer">
-    <p><b>footer</b> (fixed height)</p>
-  </div>
+        <mat-toolbar class="toolbar" color="primary">
+            <button mat-icon-button class="example-icon" (click)="productos()">
+                <mat-icon>home</mat-icon>
+            </button>
+            <span class="titulo-toolbar">Herbavi Admin</span>
+            <span class="spacer"></span>
+            <button mat-icon-button class="example-icon" (click)="regresar()">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-toolbar>
+      </p>
 </div>
+<router-outlet></router-outlet>
+

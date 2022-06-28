@@ -16,7 +16,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 export class ProductosComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, public dialog: MatDialog, private responsive: BreakpointObserver) { }
+  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private responsive: BreakpointObserver) { }
 
   // Variables para controlar los productos por páginas
   totalProducts: number = 100;
@@ -59,9 +59,9 @@ export class ProductosComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    for (let i = 0; i < 20; i++){
-      const producto: Producto = new Producto(0, 'Cerbeza Imperial',
-      'Bebidas', 'Descripcion bb', 'disponible', 10, '', 1200);
+    for (let i = 0; i < 12; i++){
+      const producto: Producto = {id : 'ACD', nombre: 'Bud Light', precio: 2000, 
+    imagen: '', descripcion: "La mejor", cantidad: 40, estado:"disponible", categoria: "Bebidas" }
       this.listaProductos.push(producto);
     }
     // Suscribirse al Observer

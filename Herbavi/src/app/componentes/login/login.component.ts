@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   login(){
     console.log(this.nombre_usuario);
     console.log(this.contrasena);
-    this.router.navigate(['/Herbavi-Home/Productos']);
+    this.router.navigate(['/Herbavi-Admin/NuevoProducto']);
   }
 
   // Metodo para dirigirse al componente de Registro

@@ -1,0 +1,56 @@
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.formulario {
+    width:100%;
+    max-height: 60vh;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-y: scroll;
+}
+
+h2 {
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Times New Roman';
+    margin-bottom: 40px;
+}
+
+input {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    font-family: 'Times New Roman';
+}
+
+.contenedor-boton {
+    text-align: center;
+}
+
+.contenedor-boton button {
+    width: 20%;
+    margin-top: 10px;
+    background-color: #764248;
+    border-radius: 25px;
+}
+
+textarea {
+    resize: none;
+    text-align: center;
+    width: 50%;
+    margin-bottom: 20px;
+ }
+
+ select {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 30%; 
+ }

@@ -1,16 +1,10 @@
-<div class="container-fluid contenedor-productos"
-[ngClass]="{'web-landscape': responsive_flags.web_landscape,
-'tablet-portrait': responsive_flags.tablet_portrait,
-'tablet-landscape': responsive_flags.tablet_landscape,
-'smartphone-portrait': responsive_flags.smartphone_portrait,
-'smartphone-landscape': responsive_flags.smartphone_landscape}">
+<div class="container-fluid contenedor-productos">
     <div class="row align-self-center justify-content-start descripcion">
-        <div class="col-2 align-self-center"
-        [ngClass]="{'col-6': carta_smartphone}">
+        <div class="col-2 align-self-center">
             <span>Categorías</span>
             <button mat-icon-button [matMenuTriggerFor]="categorias">
                 <mat-icon>list</mat-icon>
-              </button>
+            </button>
             <mat-menu #categorias="matMenu">
                 <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Frutas y Verduras')">
                     <mat-radio-group class="grid">
@@ -29,21 +23,27 @@
                 </button>
             </mat-menu>
         </div>
+        <div class="col-5">
+            <span>Agregar nueva categoría</span>
+            <button mat-icon-button>
+                <mat-icon>add_box</mat-icon>
+            </button>
+        </div>
+        <div class="col-5">
+            <span>Agregar nuevo producto</span>
+            <button mat-icon-button (click)="agregarProducto()">
+                <mat-icon>add_box</mat-icon>
+            </button>
+        </div>
     </div>
     <mat-divider></mat-divider>
     <div class="row align-items-center justify-content-center  productos">
         <div class="col align-self-center">
             <div class="container">
                 <div class="row">
-                    <div [ngClass]="{'col-3': carta_web,
-                    'col-6': carta_tablet,
-                    'col-12': carta_smartphone}"
-                     *ngFor="let p of listaProductos">
+                    <div class="col-3"  *ngFor = "let p of listaProductos">
                         <div class="card">
-                            <div 
-                            [ngClass]="{'producto-disponible': p.estado == 'disponible',
-                            'producto-agotado': p.estado == 'agotado',
-                            'producto-carrito': p.estado == 'carrito'}">
+                            <div class="card-header">
                                 {{p.nombre}}
                             </div>
                             <div class="img-container"> 
@@ -60,14 +60,8 @@
                                     </div>
                                 </div>
                               
-                                <div class="contenedor-boton" *ngIf="p.estado == 'disponible'">
-                                    <button type="submit" class="btn btn-primary">Agregar</button>
-                                </div>
-                                <div class="contenedor-boton" *ngIf="p.estado == 'carrito'">
-                                    <button type="submit" class="btn btn-primary">Soltar</button>
-                                </div>
-                                <div class="contenedor-boton" *ngIf="p.estado == 'agotado'">
-                                    <button [disabled]="true" type="submit" class="btn btn-primary">Agregar</button>
+                                <div class="contenedor-boton">
+                                    <button type="submit" class="btn btn-primary">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -79,11 +73,12 @@
 </div>
 
 <div class="footer">
-    <mat-paginator [length]="100"
+    <mat-paginator [length]="13"
     [pageSize]="12"
     (page)="onChangedPage($event)">
     </mat-paginator>
 </div>
+
 
 
 

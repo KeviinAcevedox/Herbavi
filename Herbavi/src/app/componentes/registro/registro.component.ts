@@ -16,7 +16,9 @@ export class RegistroComponent implements OnInit {
   // Variables usadas para almacenar los datos de los campos de texto
   nombre: string = '';
 
-  apellidos: string = '';
+  primer_apellido: string = '';
+
+  segundo_apellido: string = '';
 
   numero_telefono: number = 0;
 
@@ -27,6 +29,10 @@ export class RegistroComponent implements OnInit {
   numero_cuenta: number = 0;
 
   nombre_usuario: string = '';
+
+  password: string = '';
+
+  confirm_password: string = '';
 
   // Instancia de la clase Responsive para controlar las dimensiones de las pantallas
   responsive_flags: Responsive = new Responsive();

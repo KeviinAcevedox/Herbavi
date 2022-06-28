@@ -24,9 +24,15 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label>Apellidos</label>
+                    <label>Primer apellido</label>
                     <div class="form-group">
-                        <input type="string" class="form-control" id="apellidos-id" #apellidos1="ngModel"  required name="apellidos"  [(ngModel)]="apellidos">
+                        <input type="string" class="form-control" id="apellido1" #apellido1="ngModel"  required name="apellido1"  [(ngModel)]="primer_apellido">
+                    </div>
+                </div>
+                <div class="col">
+                    <label>Segundo apellido</label>
+                    <div class="form-group">
+                        <input type="string" class="form-control" id="apellido2" #apellido2="ngModel"  required name="apellido2"  [(ngModel)]="segundo_apellido">
                     </div>
                 </div>
             </div>
@@ -57,8 +63,20 @@
             <div class="row">
                 <div class="col">
                     <label>Nombre de usuario</label>
-                    <div class="form-group col-4">
+                    <div class="form-group">
                         <input type="string" class="form-control" id="usuario-id" #usuario="ngModel"  required name="usuario"  [(ngModel)]="nombre_usuario">
+                    </div>              
+                </div>
+                <div class="col">
+                    <label>Contraseña</label>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="contrasena1" #contra1="ngModel"  required name="contra1"  [(ngModel)]="password">
+                    </div>              
+                </div>
+                <div class="col">
+                    <label>Confirmar contraseña</label>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="contrasena2" #contra2="ngModel"  required name="contra2"  [(ngModel)]="confirm_password">
                     </div>              
                 </div>
             </div>
