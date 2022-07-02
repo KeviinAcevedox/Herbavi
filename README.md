@@ -3,7 +3,7 @@ El proyecto consta de dos partes. Una aplicación web desarrollada en el framewo
 
 Para poder ejecutarlo se deben descargar las dos carpetas en el dispositivo.
 
-#--------------------------------------------------------------------------------------------.
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Requisitos para ejecutar la REST API en Python:
 Primero se deben instalar los siguientes paquetes de Python usando el comando pip.
 * flask
@@ -12,8 +12,7 @@ Primero se deben instalar los siguientes paquetes de Python usando el comando pi
 Luego para ejecutar la REST API se debe usar la terminal y dirigirse a la carpeta app donde se encuentran los archivos con extensión de Python.
 Luego simplemente se ejecuta el archivo app.py
 
-
-#--------------------------------------------------------------------------------------------.
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Requisitos para ejecutar la app web:
 Primero se deben instalar los siguientes paquetes en el dispositivo.
 * NPM
