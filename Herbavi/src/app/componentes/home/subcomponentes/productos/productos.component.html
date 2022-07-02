@@ -1,4 +1,5 @@
 <div class="container-fluid contenedor-productos"
+*ngIf="!mostrarLoading"
 [ngClass]="{'web-landscape': responsive_flags.web_landscape,
 'tablet-portrait': responsive_flags.tablet_portrait,
 'tablet-landscape': responsive_flags.tablet_landscape,
@@ -11,21 +12,13 @@
             <button mat-icon-button [matMenuTriggerFor]="categorias">
                 <mat-icon>list</mat-icon>
               </button>
-            <mat-menu #categorias="matMenu">
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Frutas y Verduras')">
+              <mat-menu #categorias="matMenu">
+                <button mat-menu-item style="height: fit-content;"
+                 *ngFor="let c of listaCategorias"
+                (click)="actualizarCategoria(c['nombre_categoria'])">
                     <mat-radio-group class="grid">
-                      <mat-radio-button value="Frutas y Verduras" [checked]="categoria == 'Frutas y Verduras'">Frutas y Verduras</mat-radio-button>
-                    </mat-radio-group>
-                </button>
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Bebidas')">
-                    <mat-radio-group class="grid" >
-                      <mat-radio-button value="Bebidas" [checked]="categoria=='Bebidas'">Bebidas</mat-radio-button>
-                    </mat-radio-group>
-                </button>
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Carnes')">
-                    <mat-radio-group class="grid" >
-                      <mat-radio-button value="Carnes" [checked]="categoria=='Carnes'">Carnes</mat-radio-button>
-                    </mat-radio-group>
+                        <mat-radio-button value="c['nombre_categoria']" [checked]="categoria == c['nombre_categoria']">{{c['nombre_categoria']}}</mat-radio-button>
+                        </mat-radio-group>
                 </button>
             </mat-menu>
         </div>
@@ -47,13 +40,13 @@
                                 {{p.nombre}}
                             </div>
                             <div class="img-container"> 
-                                <img src="assets/tomatos.png" alt="image">
+                                <img src="{{p.imagen}}" alt="image">
                             </div>
                             <mat-divider></mat-divider>
                             <div class="card-body">
                                 <div class="row align-self-center justify-content-center">
                                     <div class="col">  
-                                        <h5 class="card-title">₡ {{p.precio}}</h5>
+                                        <h5 class="card-title" style="font-size: 13px;">₡ {{p.precio}}</h5>
                                     </div>
                                     <div class="col">
                                         <mat-icon (click)="openDialog(p.nombre, p.descripcion)">info</mat-icon>
@@ -61,10 +54,10 @@
                                 </div>
                               
                                 <div class="contenedor-boton" *ngIf="p.estado == 'disponible'">
-                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                    <button (click)="agregarProductoCarrito(p)" type="submit" class="btn btn-primary">Agregar</button>
                                 </div>
                                 <div class="contenedor-boton" *ngIf="p.estado == 'carrito'">
-                                    <button type="submit" class="btn btn-primary">Soltar</button>
+                                    <button (click)="soltarProductoCarrito(p)" type="submit" class="btn btn-primary">Soltar</button>
                                 </div>
                                 <div class="contenedor-boton" *ngIf="p.estado == 'agotado'">
                                     <button [disabled]="true" type="submit" class="btn btn-primary">Agregar</button>
@@ -78,11 +71,16 @@
     </div>
 </div>
 
-<div class="footer">
-    <mat-paginator [length]="100"
+<div class="footer" *ngIf="!mostrarLoading">
+    <mat-paginator #paginator [length]="totalProductos"
     [pageSize]="12"
+    [pageIndex]="pagina-1"
     (page)="onChangedPage($event)">
     </mat-paginator>
+</div>
+
+<div class="mt-5 text-center loading" *ngIf="mostrarLoading">
+    <img src="assets/loading3.gif"/>
 </div>
 
 

@@ -5,4 +5,8 @@ export class Responsive {
     tablet_landscape: boolean = false;
     smartphone_portrait: boolean = false;
     smartphone_landscape: boolean = false;
+
+    carta_web: boolean = false;
+    carta_tablet: boolean = false;
+    carta_smartphone: boolean = false;
 }

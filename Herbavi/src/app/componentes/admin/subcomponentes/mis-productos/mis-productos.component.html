@@ -1,4 +1,4 @@
-<div class="container-fluid contenedor-productos">
+<div class="container-fluid contenedor-productos" *ngIf="!mostrarLoading">
     <div class="row align-self-center justify-content-start descripcion">
         <div class="col-2 align-self-center">
             <span>Categorías</span>
@@ -6,26 +6,18 @@
                 <mat-icon>list</mat-icon>
             </button>
             <mat-menu #categorias="matMenu">
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Frutas y Verduras')">
+                <button mat-menu-item style="height: fit-content;"
+                 *ngFor="let c of listaCategorias"
+                (click)="actualizarCategoria(c['nombre_categoria'])">
                     <mat-radio-group class="grid">
-                      <mat-radio-button value="Frutas y Verduras" [checked]="categoria == 'Frutas y Verduras'">Frutas y Verduras</mat-radio-button>
-                    </mat-radio-group>
-                </button>
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Bebidas')">
-                    <mat-radio-group class="grid" >
-                      <mat-radio-button value="Bebidas" [checked]="categoria=='Bebidas'">Bebidas</mat-radio-button>
-                    </mat-radio-group>
-                </button>
-                <button mat-menu-item style="height: fit-content;" (click)="actualizarCategoria('Carnes')">
-                    <mat-radio-group class="grid" >
-                      <mat-radio-button value="Carnes" [checked]="categoria=='Carnes'">Carnes</mat-radio-button>
-                    </mat-radio-group>
+                        <mat-radio-button value="c['nombre_categoria']" [checked]="categoria == c['nombre_categoria']">{{c['nombre_categoria']}}</mat-radio-button>
+                        </mat-radio-group>
                 </button>
             </mat-menu>
         </div>
         <div class="col-5">
-            <span>Agregar nueva categoría</span>
-            <button mat-icon-button>
+            <span>Agregar nueva categoria</span>
+            <button mat-icon-button (click)="openDialogNuevaCategoria()">
                 <mat-icon>add_box</mat-icon>
             </button>
         </div>
@@ -47,21 +39,21 @@
                                 {{p.nombre}}
                             </div>
                             <div class="img-container"> 
-                                <img src="assets/tomatos.png" alt="image">
+                                <img src="{{p.imagen}}" alt="image">
                             </div>
                             <mat-divider></mat-divider>
                             <div class="card-body">
                                 <div class="row align-self-center justify-content-center">
                                     <div class="col">  
-                                        <h5 class="card-title">₡ {{p.precio}}</h5>
+                                        <h5 class="card-title" style="font-size: 13px;">₡ {{p.precio}}</h5>
                                     </div>
                                     <div class="col">
-                                        <mat-icon (click)="openDialog(p.nombre, p.descripcion)">info</mat-icon>
+                                        <mat-icon (click)="openDialogInfo(p.nombre, p.descripcion)">info</mat-icon>
                                     </div>
                                 </div>
                               
                                 <div class="contenedor-boton">
-                                    <button type="submit" class="btn btn-primary">Eliminar</button>
+                                    <button type="submit" class="btn btn-primary" (click)="openDialogEliminar(p.nombre, p.categoria, p.id)">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -72,12 +64,20 @@
     </div>
 </div>
 
-<div class="footer">
-    <mat-paginator [length]="13"
+<div class="footer" *ngIf="!mostrarLoading">
+    <mat-paginator #paginator [length]="totalProductos"
     [pageSize]="12"
+    [pageIndex]="pagina-1"
     (page)="onChangedPage($event)">
     </mat-paginator>
 </div>
+
+
+
+<div class="mt-5 text-center loading" *ngIf="mostrarLoading">
+    <img src="assets/loading3.gif"/>
+</div>
+
 
 
 

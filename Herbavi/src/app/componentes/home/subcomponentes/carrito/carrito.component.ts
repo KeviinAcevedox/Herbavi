@@ -1,42 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ProductoCarrito } from 'src/app/modelos/producto-carrito';
 import { Responsive } from 'src/app/modelos/responsive';
-
-const ELEMENT_DATA: ProductoCarrito[] = [
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-{id: '1A2', nombre:'Birra Imperial', cantidad: 23, precio: 1000},
-{id: '1B2', nombre:'Bolsa de arroz - 2 kg', cantidad: 1, precio: 1300},
-
-];
+import { ResponsiveService } from 'src/app/servicios/responsive.service';
 
 @Component({
   selector: 'app-carrito',
@@ -45,23 +11,18 @@ const ELEMENT_DATA: ProductoCarrito[] = [
 })
 export class CarritoComponent implements OnInit {
 
-  constructor(private responsive: BreakpointObserver) { }
+  constructor(private responsive: ResponsiveService) { }
 
   // Objeto usado para mantener dimensiones responsive
-  responsive_flags: Responsive = new Responsive();
+  responsive_flags: Responsive;
 
   displayedColumns: string[] = ['nombre', 'cantidad', 'precio', 'subtotal', 'eliminar'];
-  dataSource = [...ELEMENT_DATA];
+  dataSource = [];
 
   @ViewChild(MatTable) table: MatTable<ProductoCarrito>;
 
   // Variable para actualizar el total a pagar
   total: number = 0;
-
-  addData() {
-    this.dataSource.push(ELEMENT_DATA[0]);
-    this.table.renderRows();
-  }
 
   removeData(producto: ProductoCarrito) {
     this.dataSource.forEach( (item, index) => {
@@ -73,6 +34,8 @@ export class CarritoComponent implements OnInit {
           this.dataSource.splice(index,1);
         }
         this.actualizarTotal();
+        // Actualizar el Local Storage
+        this.actualizarLocalStorage();
         this.table.renderRows();
       }
     });
@@ -86,53 +49,27 @@ export class CarritoComponent implements OnInit {
     }
   }
 
+  // Metodo para copiar la lista de productos carrito que se encuentra en el localStorage
+  getListaProductosCarrito(){
+    let productos_carrito: ProductoCarrito[] = JSON.parse(
+      localStorage.getItem('productos_carrito'));
+    return productos_carrito;
+  }
+
+  // Metodo para guardar los cambios de la lista en el LocalStorage
+  actualizarLocalStorage(){
+    localStorage.setItem('productos_carrito', JSON.stringify(this.dataSource));
+  }
+
   ngOnInit(): void {
-    // Actualizar el carrito de compras
-    this.total = 0;
-    for (let p of this.dataSource){
-      this.total += p.precio * p.cantidad;
-    }
+    // Cargar los productos del LocalStorage
+    this.dataSource = this.getListaProductosCarrito();
 
-    // Suscribirse al Observer
-    this.responsive.observe([
-      Breakpoints.WebLandscape,
-      Breakpoints.HandsetPortrait,
-      Breakpoints.HandsetLandscape,
-      Breakpoints.TabletPortrait,
-      Breakpoints.TabletLandscape
-    ])
-    .subscribe( result => {
-      
-      // Guardar el resultado encontrado
-      const breakpoints = result.breakpoints;
+    // Actualizar el total del carrito de compras
+    this.actualizarTotal();
 
-      // Resetear los flags
-      this.responsive_flags.web_landscape = false;
-      this.responsive_flags.tablet_portrait = false;
-      this.responsive_flags.tablet_landscape = false;
-      this.responsive_flags.smartphone_portrait = false;
-      this.responsive_flags.smartphone_landscape = false;
-
-      if (breakpoints[Breakpoints.HandsetPortrait]){
-        this.responsive_flags.smartphone_portrait = true;
-      }
-
-      else if (breakpoints[Breakpoints.TabletPortrait]){
-        this.responsive_flags.tablet_portrait = true;
-      }
-
-      else if (breakpoints[Breakpoints.HandsetLandscape]){
-        this.responsive_flags.smartphone_landscape = true;
-      }
-
-      else if (breakpoints[Breakpoints.TabletLandscape]){
-        this.responsive_flags.tablet_landscape = true;
-      }
-
-      else if (breakpoints[Breakpoints.WebLandscape]){
-        this.responsive_flags.web_landscape = true;
-      }
-    });
+    // Usar el objeto responsive del servicio Responsive
+    this.responsive_flags = this.responsive.responsive_flags; 
   }
 
 

@@ -13,10 +13,12 @@ import { HomeComponent } from './componentes/home/home.component';
 import { ProductosComponent } from './componentes/home/subcomponentes/productos/productos.component';
 import { CarritoComponent } from './componentes/home/subcomponentes/carrito/carrito.component';
 import { AdminComponent } from './componentes/admin/admin.component';
-import { MisProductosComponent } from './componentes/admin/subcomponentes/mis-productos/mis-productos.component';
+import { MisProductosComponent, DialogNuevaCategoria, DialogEliminarProducto } from './componentes/admin/subcomponentes/mis-productos/mis-productos.component';
 import { AgregarProductoComponent } from './componentes/admin/subcomponentes/agregar-producto/agregar-producto.component';
 import { ImagenesService } from 'src/app/servicios/imagenes.service';
 import { PeticionesService } from './servicios/peticiones.service';
+import { NotificacionesService } from './servicios/notificaciones.service';
+import { ResponsiveService } from './servicios/responsive.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { PeticionesService } from './servicios/peticiones.service';
     CarritoComponent,
     AdminComponent,
     MisProductosComponent,
+    DialogNuevaCategoria,
+    DialogEliminarProducto,
     AgregarProductoComponent
   ],
   imports: [
@@ -39,7 +43,8 @@ import { PeticionesService } from './servicios/peticiones.service';
     LayoutModule,
     HttpClientModule
   ],
-  providers: [ImagenesService, PeticionesService],
+  providers: [ImagenesService, PeticionesService, NotificacionesService,
+  ResponsiveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-<div class="container carta"
+<div class="container carta" *ngIf="!mostrarLoading"
 [ngClass]="{'web-landscape': responsive_flags.web_landscape,
 'tablet-portrait': responsive_flags.tablet_portrait,
 'tablet-landscape': responsive_flags.tablet_landscape,
@@ -30,9 +30,9 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label>Segundo apellido</label>
+                    <label>Segundo apellido (Opcional)</label>
                     <div class="form-group">
-                        <input type="string" class="form-control" id="apellido2" #apellido2="ngModel"  required name="apellido2"  [(ngModel)]="segundo_apellido">
+                        <input type="string" class="form-control" id="apellido2" #apellido2="ngModel"  name="apellido2"  [(ngModel)]="segundo_apellido">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="col">
                     <label>Número de teléfono</label>
                     <div class="form-group col-4">
-                        <input type="number" class="form-control" id="telefono-id" #telefono="ngModel"  required name="telefono"  [(ngModel)]="numero_telefono">
+                        <input type="number" max="8" min="8" class="form-control" id="telefono-id" #telefono="ngModel"  required name="telefono"  [(ngModel)]="numero_telefono">
                     </div>              
                 </div>
             </div>
@@ -81,8 +81,12 @@
                 </div>
             </div>
             <div class="contenedor-boton">
-                <button [disabled]="registroForm.form.invalid" type="submit" class="btn btn-primary">Registrarse</button>
+                <button [disabled]="registroForm.form.invalid" type="submit" class="btn btn-primary" (click)="registrarUsuario()">Registrarse</button>
             </div>
         </form>
     </div>
+</div>
+
+<div class="mt-5 text-center" *ngIf="mostrarLoading">
+    <img src="assets/loading3.gif"/>
 </div>

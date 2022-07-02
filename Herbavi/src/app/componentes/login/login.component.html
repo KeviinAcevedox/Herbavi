@@ -1,4 +1,4 @@
-<div class="container carta" 
+<div class="container carta"  *ngIf="!mostrarLoading"
 [ngClass]="{'web-landscape': responsive_flags.web_landscape,
 'tablet-portrait': responsive_flags.tablet_portrait,
 'tablet-landscape': responsive_flags.tablet_landscape,
@@ -25,4 +25,7 @@
     <div class="row enlace">
         <p><a (click)="registrarse()">¿No tienes una cuenta aún?</a></p>
     </div>
+</div>
+<div class="mt-5 text-center loading" *ngIf="mostrarLoading">
+    <img src="assets/loading3.gif"/>
 </div>

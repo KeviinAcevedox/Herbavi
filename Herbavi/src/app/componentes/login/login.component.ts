@@ -2,6 +2,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Responsive } from 'src/app/modelos/responsive';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { PeticionesService } from 'src/app/servicios/peticiones.service';
+import { ResponsiveService } from 'src/app/servicios/responsive.service';
 
 
 @Component({
@@ -11,20 +14,51 @@ import { Responsive } from 'src/app/modelos/responsive';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private responsive: BreakpointObserver) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+    private peticiones: PeticionesService,
+    private notificaciones: NotificacionesService,
+    private responsive: ResponsiveService ) { }
 
   // Estas variables se usan para almacenar los campos de texto del Login
   nombre_usuario: string  = '';
   contrasena: string = '';
 
+  // Variable para mostrar una imagen en caso de que se esté cargando datos de la API
+  mostrarLoading: boolean = false;
+
   // Variables para identificar las dimensiones de los dispositivos
-  responsive_flags: Responsive = new Responsive();
+  responsive_flags: Responsive;
 
   // Metodo para validar el Login
-  login(){
-    console.log(this.nombre_usuario);
-    console.log(this.contrasena);
-    this.router.navigate(['/Herbavi-Admin/NuevoProducto']);
+  async login(){
+    this.mostrarLoading = true;
+    const response = await this.peticiones.verificarLogin(this.nombre_usuario, this.contrasena);
+    await this.peticiones.delay(0.2);
+    this.mostrarLoading = false;
+
+    let estatus = response['estatus'];
+    let mensaje = response['mensaje'];
+
+    this.notificaciones.mostrarNotificacion(mensaje, 2);
+    if (!estatus){
+      this.resetear();
+      return;
+    }
+
+    // Si no hay ningun problema
+    this.resetear();
+
+    // Guardar una lista vacía de los productos del carrito en LocalStorage
+    localStorage.setItem('productos_carrito', JSON.stringify([]));
+    
+    let ruta = response['ruta']
+    this.router.navigate([ruta, 'Todas', 1]);
+  }
+
+  // Metodo para resetear las variables de entrada
+  resetear(){
+    this.nombre_usuario = '';
+    this.contrasena = '';
   }
 
   // Metodo para dirigirse al componente de Registro
@@ -32,46 +66,8 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/Herbavi-Registro']);
   }
   ngOnInit(): void {
-    this.responsive.observe([
-      Breakpoints.WebLandscape,
-      Breakpoints.HandsetPortrait,
-      Breakpoints.HandsetLandscape,
-      Breakpoints.TabletPortrait,
-      Breakpoints.TabletLandscape
-    ])
-    .subscribe( result => {
-      
-      // Guardar el resultado encontrado
-      const breakpoints = result.breakpoints;
-
-      // Resetear los flags
-      this.responsive_flags.web_landscape = false;
-      this.responsive_flags.tablet_portrait = false;
-      this.responsive_flags.tablet_landscape = false;
-      this.responsive_flags.smartphone_portrait = false;
-      this.responsive_flags.smartphone_landscape = false;
-
-      if (breakpoints[Breakpoints.HandsetPortrait]){
-        this.responsive_flags.smartphone_portrait = true;
-      }
-
-      else if (breakpoints[Breakpoints.TabletPortrait]){
-        this.responsive_flags.tablet_portrait = true;
-      }
-
-      else if (breakpoints[Breakpoints.HandsetLandscape]){
-        console.log('Matches');
-        this.responsive_flags.smartphone_landscape = true;
-      }
-
-      else if (breakpoints[Breakpoints.TabletLandscape]){
-        this.responsive_flags.tablet_landscape = true;
-      }
-
-      else if (breakpoints[Breakpoints.WebLandscape]){
-        this.responsive_flags.web_landscape = true;
-      }
-    });
+    // Usar el objeto responsive del servicio Responsive
+    this.responsive_flags = this.responsive.responsive_flags;
   }
 
 

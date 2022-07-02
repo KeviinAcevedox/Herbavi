@@ -1,10 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Producto } from 'src/app/modelos/producto';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Responsive } from 'src/app/modelos/responsive';
 import { PageEvent } from '@angular/material/paginator';
+import { ResponsiveService } from 'src/app/servicios/responsive.service';
+import { PeticionesService } from 'src/app/servicios/peticiones.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { ProductoCarrito } from 'src/app/modelos/producto-carrito';
 
 
 
@@ -16,25 +19,38 @@ import { PageEvent } from '@angular/material/paginator';
 
 export class ProductosComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private responsive: BreakpointObserver) { }
+  // Variable para mostrar una imagen en caso de que se esté cargando datos de la API
+  mostrarLoading: boolean = false;
+
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private responsive: ResponsiveService,
+    private peticiones: PeticionesService,
+    private notificaciones: NotificacionesService) { }
 
   // Variables para controlar los productos por páginas
-  totalProducts: number = 100;
-  productsPerPage: number = 20;
+  // Variables para controlar los productos por páginas
+  totalProductos = 12;
+  pagina = 1;
 
   // Objeto usado para mantener dimensiones responsive
-  responsive_flags: Responsive = new Responsive();
+  responsive_flags: Responsive;
 
   // Otras variables usadas para activar acciones responsive
-  carta_web: boolean = false;
-  carta_tablet: boolean = false;
-  carta_smartphone: boolean = false;
+  carta_web: boolean;
+  carta_tablet: boolean;
+  carta_smartphone: boolean;
   
   // Lista que contiene los productos a mostrar en la pantalla
   listaProductos: Producto[] = [];
 
+  // Lista de categorias de los productos
+  listaCategorias: any[] = [];
+
   // Variable para la selección de categoría
   categoria: any;
+
 
   openDialog(nombre: string, descripcion: string) {
     this.dialog.open(InfoDialog, {
@@ -47,77 +63,131 @@ export class ProductosComponent implements OnInit {
 
   // Este metodo se ejecuta cuando se presiona el boton de cambiar página
   onChangedPage(pageData: PageEvent) {
-    console.log(pageData.pageIndex);
+    this.pagina = pageData.pageIndex + 1;
+    this.router.navigate(['/Herbavi-Home/Productos', this.categoria, this.pagina]);
   }
 
-  // Evento para cuando se selecciona un nuevo radio button
+  // Se ejecuta cuando se presiona un radioButton de categorias
+  // En este caso se van a pedir los productos de la pagina 1 por defecto
   actualizarCategoria(nueva_categoria: string) {
-    if (nueva_categoria != this.categoria){
-      this.categoria = nueva_categoria;
-      console.log(nueva_categoria);
+    this.categoria = nueva_categoria;
+    this.router.navigate(['/Herbavi-Home/Productos', this.categoria, 1]);
+  }
+
+  // Metodo para pedir los datos de la API
+  async actualizarDatosAPI(){
+    if (this.categoria == 'Todas'){
+      this.solicitarTodosProductos();
+      return;
     }
-}
+    this.mostrarLoading = true;
+    this.listaCategorias = await this.peticiones.getCategorias();
+    const response = await this.peticiones.getProductosCategoria(this.categoria, this.pagina);
+    this.listaProductos = response['lista_productos'];
+    this.totalProductos = response['cantidad_total'];
+    this.recordarProductosCarrito();
+    await this.peticiones.delay(0.1);
+    this.mostrarLoading = false;
+  }
 
-  ngOnInit(): void {
-    for (let i = 0; i < 12; i++){
-      const producto: Producto = {id : 'ACD', nombre: 'Bud Light', precio: 2000, 
-    imagen: '', descripcion: "La mejor", cantidad: 40, estado:"disponible", categoria: "Bebidas" }
-      this.listaProductos.push(producto);
+  // Este metodo se ejecuta cuando el usuario acaba de entrar en la vista de admin
+  // Se piden todos los productos pero por defecto en la primera pagina
+  async solicitarTodosProductos(){
+    this.mostrarLoading = true;
+    this.listaCategorias = await this.peticiones.getCategorias();
+    const response = await this.peticiones.getTodosProductos(this.pagina);
+    this.listaProductos = response['lista_productos'];
+    this.totalProductos = response['cantidad_total']
+    this.recordarProductosCarrito();
+    await this.peticiones.delay(0.1);
+    this.mostrarLoading = false;
+  }
+
+
+  // Metodo para copiar la lista de productos carrito que se encuentra en el localStorage
+  getListaProductosCarrito(){
+    let productos_carrito: ProductoCarrito[] = JSON.parse(
+      localStorage.getItem('productos_carrito'));
+    return productos_carrito;
+  }
+
+  // Metodo para recorrer la lista de productos en el carrito y compararla
+  // con la lista de productos normal para recordar cuáles productos ya están agregados
+  // Esta función se llama despues de actualizar los productos de la API
+  recordarProductosCarrito(){
+    let productos_carrito: ProductoCarrito[] = this.getListaProductosCarrito();
+    for (let p of this.listaProductos){
+      for (let pc of productos_carrito){
+        if (pc.id == p.id){
+          p.estado = 'carrito'
+          break;
+        }
+      }
     }
-    // Suscribirse al Observer
-    this.responsive.observe([
-      Breakpoints.WebLandscape,
-      Breakpoints.HandsetPortrait,
-      Breakpoints.HandsetLandscape,
-      Breakpoints.TabletPortrait,
-      Breakpoints.TabletLandscape
-    ])
-    .subscribe( result => {
-      
-      // Guardar el resultado encontrado
-      const breakpoints = result.breakpoints;
+  }
 
-      // Resetear los flags
-      this.responsive_flags.web_landscape = false;
-      this.responsive_flags.tablet_portrait = false;
-      this.responsive_flags.tablet_landscape = false;
-      this.responsive_flags.smartphone_portrait = false;
-      this.responsive_flags.smartphone_landscape = false;
+  // Metodo para agregar un producto a la lista de productos del localStorage
+  agregarProductoCarrito(producto: Producto){
+    const productos_carrito: ProductoCarrito[] = this.getListaProductosCarrito();
+    let nuevo_producto_carrito: ProductoCarrito = {
+      nombre: producto.nombre,
+      id: producto.id,
+      precio: producto.precio,
+      cantidad: 0
+    }
 
-      // Resetear las banderas de las cartas
-      this.carta_tablet = false;
-      this.carta_web = false;
-      this.carta_smartphone = false;
+    // Agregar el producto a la lista del carrito
+    productos_carrito.push(nuevo_producto_carrito);
 
-      if (breakpoints[Breakpoints.HandsetPortrait]){
-        this.responsive_flags.smartphone_portrait = true;
-        this.carta_smartphone = true;
-      }
+    // Actualizar el local storage
+    localStorage.clear();
+    localStorage.setItem('productos_carrito',JSON.stringify(productos_carrito));
 
-      else if (breakpoints[Breakpoints.TabletPortrait]){
-        this.responsive_flags.tablet_portrait = true;
-        this.carta_tablet = true;
-      }
+    // Actualizar el estado del producto
+    producto.estado = 'carrito';
+  }
 
-      else if (breakpoints[Breakpoints.HandsetLandscape]){
-        this.responsive_flags.smartphone_landscape = true;
-        this.carta_tablet = true;
-      }
+  // Metodo para eliminar un producto del carrito
+  soltarProductoCarrito(producto: Producto){
+    const productos_carrito: ProductoCarrito[] = this.getListaProductosCarrito();
 
-      else if (breakpoints[Breakpoints.TabletLandscape]){
-        this.responsive_flags.tablet_landscape = true;
-        this.carta_web = true;
-      }
+    // Cambiar el estado del producto a 'disponible'
+    producto.estado = 'disponible';
 
-      else if (breakpoints[Breakpoints.WebLandscape]){
-        this.responsive_flags.web_landscape = true;
-        this.carta_web = true;
+    // Buscar el producto en la lista de carrito y eliminarlo
+    productos_carrito.forEach( (item, index) => {
+      if(item.id === producto.id){
+        if (index == -1){
+          productos_carrito.pop();
+        }
+        else{
+          productos_carrito.splice(index,1);
+        }
+        // Actualizar el local storage
+        localStorage.clear(); 
+        localStorage.setItem('productos_carrito',JSON.stringify(productos_carrito));
       }
     });
-  
+  }
+
+
+  ngOnInit(): void {
+    // Usar el objeto responsive del servicio Responsive
+    this.responsive_flags = this.responsive.responsive_flags;
+    this.carta_smartphone = this.responsive.responsive_flags.carta_smartphone;
+    this.carta_tablet = this.responsive.responsive_flags.carta_tablet;
+    this.carta_web = this.responsive.responsive_flags.carta_web;
+    // Suscribirse para que cada vez que se cambie la ruta se actualicen los datos
+    this.route.params.subscribe(routeParams => {
+      this.categoria = routeParams.categoria;
+      this.pagina = routeParams.pagina;
+      this.actualizarDatosAPI();
+    });
   }
 
 }
+
+// Componente para mostrar información del producto seleccionado
 @Component({
   selector: 'info-dialog',
   templateUrl: 'carta.info.html',

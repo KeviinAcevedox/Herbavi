@@ -1,4 +1,4 @@
-<div class="container-fluid contenedor">
+<div class="container-fluid contenedor" *ngIf="!mostrarLoading">
     <div class="row justify-content-start align-items-start cabecera">
         <div class="col-4">
             <div class="example-button-container">
@@ -10,24 +10,27 @@
     </div>
     <mat-divider></mat-divider>
     <div class="row formulario">
-        <form #registroForm="ngForm" novalidate>
+        <form #nuevoProductoForm="ngForm" novalidate>
             <div class="row align-items-center">
                 <div class="col">
                     <label>Nombre de producto</label>
                     <div class="form-group">
-                        <input type="string" class="form-control">
+                        <input type="string" class="form-control"
+                        name="nombre" maxlength="30" [(ngModel)]="nombre_producto" required>
                     </div>
                 </div>
                 <div class="col">
                     <label>Precio en colones</label>
                     <div class="form-group">
-                        <input type="number" class="form-control">
+                        <input type="number" class="form-control" required
+                        name="precio1" [(ngModel)]="precio">
                     </div>
                 </div>
                 <div class="col">
                     <label>Cantidad disponible</label>
                     <div class="form-group">
-                        <input type="number" class="form-control">
+                        <input type="number" class="form-control" required
+                        name="cantidad1" [(ngModel)]="cantidad">
                     </div>
                 </div>
             </div>
@@ -35,7 +38,8 @@
                 <div class="col">
                     <label>Descripción</label>
                     <div class="form-group">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" rows="3" required
+                        name="descripcion1" maxlength="100"  [(ngModel)]="descripcion"></textarea>
                       </div>             
                 </div>
             </div>
@@ -43,8 +47,13 @@
                 <div class="col align-self-center">
                     <label>Categoria</label>
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>Default select</option>
+                        <select class="form-select" name="select" [(ngModel)]="categoria" required>
+                            <option *ngFor="let c of listaCategorias"
+                            required
+                            value="{{c['nombre_categoria']}}"
+                            name="{{c['nombre_categoria']}}">
+                                {{c['nombre_categoria']}}
+                            </option>
                         </select>
                     </div>              
                 </div>
@@ -53,8 +62,16 @@
                 <div class="col">
                     <label>Imagen asociada</label>
                     <div class="form-group">
-                        <input type="file" class="form-control-file" accept="image/png" (change)="onFileChanged($event)">
+                        <input type="file" class="form-control-file"
+                         accept="image/png" (change)="onFileChanged($event)" required>
                     </div>              
+                </div>
+            </div>
+            <div class="row align-items-center" style="text-align: center;">
+                <div class="col">
+                    <div class="contenedor-boton">
+                        <button (click)="agregarProducto()" [disabled]="nuevoProductoForm.form.invalid" type="submit" class="btn btn-primary">Agregar</button>
+                    </div>             
                 </div>
             </div>
         </form>
@@ -62,9 +79,10 @@
 </div>
 <mat-divider></mat-divider>
 
-<div class="footer">
-    <div class="contenedor-boton">
-        <button [disabled]="registroForm.form.invalid" type="submit" class="btn btn-primary">Agregar</button>
-    </div>
+<div class="mt-5 text-center loading" *ngIf="mostrarLoading">
+    <img src="assets/loading3.gif"/>
 </div>
+
+
+
 

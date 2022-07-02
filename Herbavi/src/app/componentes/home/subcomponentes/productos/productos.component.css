@@ -32,6 +32,7 @@ mat-paginator {
     margin-bottom: 40px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
+
 }
 .contenedor-productos.web-landscape .card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
@@ -40,7 +41,6 @@ mat-paginator {
 .contenedor-productos.web-landscape .producto-disponible{
     font-size: 14px;
     background-color: #BEEDAA;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -48,20 +48,19 @@ mat-paginator {
 .contenedor-productos.web-landscape .producto-agotado{
     font-size: 14px;
     background-color: #E94F37;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 .contenedor-productos.web-landscape .producto-carrito{
     font-size: 14px;
     background-color: #67AAF9;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .contenedor-productos.web-landscape .card-body {
     background-color: #E3C5BB;
+    height: 100px;
     font-size: 14px;
 }
 
@@ -83,7 +82,7 @@ mat-paginator {
 .contenedor-productos.web-landscape .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
-    background-color: #764248;
+    background-color: #D00000;
     border-radius: 25px;
     font-size: 14px;
 }
@@ -142,7 +141,8 @@ mat-paginator {
 
 .contenedor-productos.tablet-portrait .card-body {
     background-color: #E3C5BB;
-    font-size: 14px;
+    height: 100px;
+    font-size: 9px;
 }
 
 .contenedor-productos.tablet-portrait .img-container {
@@ -163,7 +163,7 @@ mat-paginator {
 .contenedor-productos.tablet-portrait .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
-    background-color: #764248;
+    background-color: #D00000;
     border-radius: 25px;
     font-size: 14px;
 }
@@ -200,7 +200,6 @@ mat-paginator {
 .contenedor-productos.tablet-landscape .producto-disponible{
     font-size: 14px;
     background-color: #BEEDAA;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -208,20 +207,19 @@ mat-paginator {
 .contenedor-productos.tablet-landscape .producto-agotado{
     font-size: 14px;
     background-color: #E94F37;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 .contenedor-productos.tablet-landscape .producto-carrito{
     font-size: 14px;
     background-color: #67AAF9;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .contenedor-productos.tablet-landscape .card-body {
     background-color: #E3C5BB;
+    height: 100px;
     font-size: 14px;
 }
 
@@ -243,7 +241,7 @@ mat-paginator {
 .contenedor-productos.tablet-landscape .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
-    background-color: #764248;
+    background-color: #D00000;
     border-radius: 25px;
     font-size: 14px;
 }
@@ -303,7 +301,8 @@ mat-paginator {
 
 .contenedor-productos.smartphone-portrait .card-body {
     background-color: #E3C5BB;
-    font-size: 14px;
+    height: 100px;
+    font-size: 9px;
 }
 
 .contenedor-productos.smartphone-portrait .img-container {
@@ -324,7 +323,7 @@ mat-paginator {
 .contenedor-productos.smartphone-portrait .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
-    background-color: #764248;
+    background-color: #D00000;
     border-radius: 25px;
     font-size: 14px;
 }
@@ -361,7 +360,6 @@ mat-paginator {
 .contenedor-productos.smartphone-landscape .producto-disponible{
     font-size: 14px;
     background-color: #BEEDAA;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -369,21 +367,20 @@ mat-paginator {
 .contenedor-productos.smartphone-landscape .producto-agotado{
     font-size: 14px;
     background-color: #E94F37;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 .contenedor-productos.smartphone-landscape .producto-carrito{
     font-size: 14px;
     background-color: #67AAF9;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .contenedor-productos.smartphone-landscape .card-body {
     background-color: #E3C5BB;
-    font-size: 14px;
+    height: 100px;
+    font-size: 9px;
 }
 
 .contenedor-productos.smartphone-landscape .img-container {
@@ -404,7 +401,7 @@ mat-paginator {
 .contenedor-productos.smartphone-landscape .contenedor-boton button {
     width: 80%;
     margin-top: 10px;
-    background-color: #764248;
+    background-color: #D00000;
     border-radius: 25px;
     font-size: 14px;
 }

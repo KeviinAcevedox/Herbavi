@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { PeticionesService } from 'src/app/servicios/peticiones.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,7 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+    private notificaciones: NotificacionesService,
+    private peticiones: PeticionesService) { }
 
     // Metodo para regresar a la pantalla de Login
     regresar(){

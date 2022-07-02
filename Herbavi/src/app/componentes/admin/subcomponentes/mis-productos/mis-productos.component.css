@@ -40,13 +40,13 @@ mat-paginator {
 .contenedor-productos .card-header{
     font-size: 14px;
     background-color: #BEEDAA;
-    font-family: 'Cooperplate', Fantasy;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .contenedor-productos .card-body {
     background-color: #E3C5BB;
+    height: 100px;
     font-size: 14px;
 }
 
