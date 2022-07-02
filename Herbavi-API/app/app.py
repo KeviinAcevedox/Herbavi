@@ -1,354 +1,389 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import json
+from productos import * 
+from usuarios import *
 from id import *
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 #--------------------------------------------------------------------------------------------
+# Ruta para verificar el LOGIN de los usuarios en la app
+@app.route('/api/usuario/login', methods = ['POST'])
+def login():
+    # Cargar el JSON que viene en la peticion POST
+    usuario = request.json['usuario']
+    password = request.json['password']
+
+    # Veridicar si es un login del admin
+    if (verificarAdmin(usuario, password)):
+        respuesta = {
+            "mensaje": "Le damos la bienvenida ADMIN.",
+            "estatus": True,
+            "ruta": "/Herbavi-Admin/Productos"
+        }
+        return jsonify(respuesta)
+
+    # Primero se debe verificar que el nombre de usuario exista
+    if usuarioExiste(usuario) == False:
+        respuesta = {
+            "mensaje": "El nombre de usuario no existe.",
+            "estatus": False
+        }
+        return jsonify(respuesta)
+    
+    # Ahora se verifica si la contraseña coincide con la contraseña del usuario
+    if passwordCorrecta(usuario, password) == False:
+        respuesta = {
+            "mensaje": "La contraseña es incorrecta.",
+            "estatus": False
+        }
+        return jsonify(respuesta)
+    
+    # En caso de que se cumplan las condiciones se envia un Ok por medio de un True
+    respuesta = {
+        "mensaje": "Los datos ingresados son correctos.",
+        "estatus": True,
+        "ruta": "/Herbavi-Home/Productos"
+    }
+    return jsonify(respuesta)
+
+#--------------------------------------------------------------------------------------------
+# Ruta para registrar un nuevo usuario en la aplicacion
+@app.route('/api/usuario/registrar', methods = ['POST'])
+def agregarUsuario():
+    # Cargar el JSON que viene en la peticion POST
+    template = request.json
+
+    # Primero se debe verificar que el nombre de usuario no se repita
+    if usuarioExiste(template['usuario']) == True:
+        respuesta = {
+            "mensaje": "El nombre de usuario ya existe.",
+            "estatus": False
+        }
+        return jsonify(respuesta)
+    
+    # Luego se debe verificar que la dirección de correo electrónica sea válida
+    if correoValido(template['correo']) == False:
+        respuesta = {
+            "mensaje": "La direccion de correo electrónico es inválida.",
+            "estatus": False
+        }
+        return jsonify(respuesta)
+
+    # Si se cumplen las condiciones se deben modificar los datos en la base de datos
+    usuarios = listaUsuarios()
+
+    # Se Encripta la contraseña para proteger la información del usuario
+    password = template['password']
+    password = password.encode('utf-8')
+    encripted_password = bcrypt.hashpw(password, bcrypt.gensalt(10))
+
+    template['password'] = encripted_password.decode('utf-8')
+
+    # Agregar el objeto JSON a la lista de usuarios
+    usuarios.append(template)
+
+    # Modificar el archivo JSON con los nuevos datos
+    modificarUsuarios(usuarios)
+
+    # Enviar un estado del proceso
+    respuesta = {
+        "mensaje": "El usuario se ha registrado correctamente.",
+        "estatus": True
+    }
+    return jsonify(respuesta)
+
+#--------------------------------------------------------------------------------------------
+# Ruta para solicitar todos los usuarios registrados en el sistema
+@app.route('/api/usuarios', methods = ['GET'])
+def getUsuarios():
+    # Se debe obtener la lista actual de usuarios
+    usuarios = listaUsuarios()
+
+    # Luego se empaqueta la lista como un JSON y se envia la respuesta
+    return jsonify(usuarios)
+
+#--------------------------------------------------------------------------------------------
+# Ruta para eliminar un usuario
+@app.route('/api/usuario/eliminar/<string:usuario>', methods = ['DELETE'])
+def eliminarUsuario(usuario: str):
+    # Primero se debe verificar que el nombre de usuario exista
+    if usuarioExiste(usuario) == False:
+        respuesta = {
+            "mensaje": "El nombre de usuario no existe.",
+            "estatus": False
+        }
+        return jsonify(respuesta)
+    
+    # Si se cumplen las condiciones se debe obtener la lista actual de usuarios
+    usuarios = listaUsuarios()
+
+    # Ahora se debe buscar el usuario y eliminarlo
+    for user in usuarios:
+        if user['usuario'] == usuario:
+            usuarios.remove(user)
+            # Modificar los datos en el archivo JSON
+            modificarUsuarios(usuarios)
+            respuesta = {
+                "mensaje": "El nombre se ha eliminado correctamente.",
+                "estatus": True
+            }
+            return jsonify(respuesta)
+
+    # En caso de que no se haya podido eliminar el usuario
+    respuesta = {
+        "mensaje": "Ha ocurrido un error inesperado al intentar eliminar el usuario.",
+        "estatus": False
+    }
+    return jsonify(respuesta)
+
+#--------------------------------------------------------------------------------------------
 # Ruta para solicitar todos los productos que se encuentran en el archivo JSON
-@app.route('/api/productos', methods = ['GET'])
+@app.route('/api/TodosProductos', methods = ['GET'])
 def getTodosProductos():
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
+    # Tomar los valores de los parametros
+    pagina = request.args.get('pagina', type = int)
+
+    # Obtener la lista con las categorias de productos en una lista
+    lista_categorias = listaCategorias()
+
+    # Crear una lista vacia para meter TODOS los productos
+    entrega_productos = []
+
+    # Iterar la lista de productos por cada categoria encontrada
+    for categoria in lista_categorias:
+        for producto in categoria['productos_categoria']:
+            entrega_productos.append(producto)
+
+    # Cargar la cantidad total de productos
+    cantidad_productos = len(entrega_productos)
+
+    # Solo se pueden entregar 12 productos por pagina
+    # Caso 1:
+    if pagina == 1:
+        return jsonify({
+            "lista_productos":  entrega_productos[0:12],
+            "cantidad_total": cantidad_productos
+            })
     else:
-        # Este bloque se ejecuta cuando no hay errores
-        archivo = open('../DB/productos.json')
-
-        # JSON Object con los datos
-        datos = json.load(archivo)
-
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
-
-        # Cerrar el archivo
-        archivo.close()
-
-        # Crear una lista vacia para meter TODOS los productos
-        entrega_productos = []
-
-        # Iterar la lista de productos por cada categoria encontrada
-        for categoria in lista_categorias:
-            for producto in categoria['productos_categoria']:
-                entrega_productos.append(producto)
+        inicio = 12 * (pagina - 1)
+        final = 12 * (pagina)
 
         # Retornar la lista con todos los productos
-        return jsonify(entrega_productos)
+        return jsonify({
+            "lista_productos":  entrega_productos[inicio:final],
+            "cantidad_total": cantidad_productos
+            })
 
 #--------------------------------------------------------------------------------------------
 # Ruta para solicitar todos los productos de una categoría específica y para una pagina especifica
-@app.route('/api/productos/<string:nombre_categoria>/<int:pagina>', methods = ['GET']) 
-def getProductosCategoria(nombre_categoria: str, pagina: int):
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
+@app.route('/api/productos', methods = ['GET']) 
+def getProductosCategoria():
+    # Obtener los datos de los parametros
+    nombre_categoria = request.args.get('nombre_categoria', type = str)
+    pagina = request.args.get('pagina', type = int)
+
+    # Primero guardar los datos en variables
+    lista_categorias = listaCategorias()
+
+    # Crear una lista vacia para meter TODOS los productos
+    entrega_productos = []
+
+    # Iterar la lista de productos por cada categoria encontrada
+    for categoria in lista_categorias:
+        if categoria['nombre_categoria'] == nombre_categoria:
+            entrega_productos = categoria['productos_categoria']
+            break
+
+    # Cargar la cantidad total de productos
+    cantidad_productos = len(entrega_productos)
+
+    # Solo se pueden entregar 12 productos por pagina
+    # Caso 1:
+    if pagina == 1:
+        return jsonify({
+            "lista_productos":  entrega_productos[0:12],
+            "cantidad_total": cantidad_productos
+            })
     else:
-        # Este bloque se ejecuta cuando no hay errores
-        archivo = open('../DB/productos.json')
+        inicio = 12 * (pagina - 1)
+        final = 12 * (pagina)
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
-
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
-
-        # Cerrar el archivo
-        archivo.close()
-
-        # Crear una lista vacia para meter TODOS los productos
-        entrega_productos = []
-
-        # Iterar la lista de productos por cada categoria encontrada
-        for categoria in lista_categorias:
-            if categoria['nombre_categoria'] == nombre_categoria:
-                entrega_productos = categoria['productos_categoria']
-                break
-
-        # Solo se pueden entregar 12 productos por pagina
-        # Caso 1:
-        if pagina == 1:
-            return jsonify(entrega_productos[0:12])
-        else:
-            inicio = 12 * (pagina - 1)
-            final = 12 * (pagina)
-            # Retornar la lista con todos los productos
-            return jsonify(entrega_productos[inicio:final])
-
+        # Retornar la lista con todos los productos
+        return jsonify({
+            "lista_productos":  entrega_productos[inicio:final],
+            "cantidad_total": cantidad_productos
+            })
 #--------------------------------------------------------------------------------------------
 # Ruta para solicitar una lista con el nombre de todas las categorías de productos y la cantidada de productos
 # por categoría
 @app.route('/api/categorias', methods = ['GET'])
 def getCategorias():
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
-    else:
-        # Este bloque se ejecuta cuando no hay errores
-        archivo = open('../DB/productos.json')
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
+    # Primero guardar los datos en variables
+    lista_categorias = listaCategorias()
 
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
+    # Crear una lista vacia para meter TODOS los productos
+    info_categorias = []
 
-        # Cerrar el archivo
-        archivo.close()
+    # Iterar la lista de productos por cada categoria encontrada
+    for categoria in lista_categorias:
+        info_categorias.append({
+        "nombre_categoria": categoria['nombre_categoria'],
+        "cantidad_productos": len(categoria['productos_categoria'])
+        })
 
-        # Crear una lista vacia para meter TODOS los productos
-        info_categorias = []
-
-        # Iterar la lista de productos por cada categoria encontrada
-        for categoria in lista_categorias:
-           info_categorias.append({
-            "nombre_categoria": categoria['nombre_categoria'],
-            "cantidad_productos": len(categoria['productos_categoria'])
-            })
-
-        # Retornar la lista con todos los productos
-        return jsonify(info_categorias)
+    # Retornar la lista con todos los productos
+    return jsonify(info_categorias)
 
 
 #--------------------------------------------------------------------------------------------
 # Ruta para agregar una nueva categoría
 @app.route('/api/categoria', methods = ['POST'])
 def postNuevaCategoria():
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
-    else:
-        # Cargar los datos del JSON
-        nombre_categoria = request.json['nombre_categoria']
+    # Cargar los datos de la peticion
+    nombre_categoria = request.json['nombre_categoria']
 
-        # Primero se lee el archivo para verificar que no se repita la categoria
-        archivo = open('../DB/productos.json', 'r')
+    # Primero guardar los datos del archivo JSON en variables
+    lista_categorias = listaCategorias()
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
-
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
-
-        # Cerrar el archivo en modo lectura
-        archivo.close()
-
-        # Iterar la lista de productos por cada categoria encontrada
-        for categoria in lista_categorias:
-            if categoria['nombre_categoria'] == nombre_categoria:
-                return jsonify(False)
+    # Iterar la lista de productos por cada categoria encontrada
+    for categoria in lista_categorias:
+        if categoria['nombre_categoria'] == nombre_categoria:
+            respuesta = {
+                "mensaje": "La categoria ya existe.",
+                "estatus": False
+            }
+            return jsonify(respuesta)
         
-        # Crear un template
-        nueva_categoria = {
-            "nombre_categoria": nombre_categoria,
-            "productos_categoria": []
-        }
+    # Crear un template
+    nueva_categoria = {
+        "nombre_categoria": nombre_categoria,
+        "productos_categoria": []
+    }
 
-        # Agregar el template a la lista de las categorias
-        lista_categorias.append(nueva_categoria)
+    # Agregar el template a la lista de las categorias
+    lista_categorias.append(nueva_categoria)
 
-        # Crear el objeto con el formato JSON deseado y los datos nuevos
-        productos_json = {
-            "categorias": lista_categorias
-        }
+    # Modificar el archivo JSON con los nuevos datos
+    modificarProductos(lista_categorias)
 
-        with open('../DB/productos.json', 'w') as archivo:
-            # Sobreescribir los datos del archivo json
-            json.dump(productos_json, archivo, indent = 6)
-
-        # Cerrar el archivo
-        archivo.close()
-
-        # Retornar True para indicar que no hay problemas
-        return jsonify(True)
+    # Retornar True para indicar que no hay problemas
+    respuesta = {
+            "mensaje": "La categoria se ha agredado correctamente.",
+            "estatus": True
+    }
+    return jsonify(respuesta)
 
 #--------------------------------------------------------------------------------------------
 # Ruta para agregar un producto a una categoría existente
 @app.route('/api/producto', methods = ['POST'])
 def postNuevoProducto():
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
-    else:
-        # Colcar el objeto json de la peticion en una variable de Python
-        producto_template = request.json
+    # Obtener el contenido de la peticion POST
+    producto_template = request.json
 
-        # Primero se lee el archivo para verificar que no se repita la categoria
-        archivo = open('../DB/productos.json', 'r')
+    # Obtener la lista de todas las categorias
+    lista_categorias = listaCategorias()
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
+    # Generar un id random para el nuevo producto
+    producto_template['id'] = generarNuevoID()
 
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
+    # Variable para verificar si se logró agregar el producto
+    agregado = False
+    mensaje = 'La categoria ingresada no existe.'
 
-        # Una vez sacados los datos del archivo, se cierra el archivo JSON
-        archivo.close()
-
-        # Generar un id random para el nuevo producto
-        producto_template['id'] = generarNuevoID()
-
-        # Variable para verificar si se logró agregar el producto
-        agregado = False
-
-        # Buscar la categoría a la que pertenece el producto y agregarlo a la lista
-        for categoria in lista_categorias:
-            if categoria['nombre_categoria'] == producto_template['categoria']:
-                categoria['productos_categoria'].append(producto_template)
-                agregado = True
-                break
+    # Buscar la categoría a la que pertenece el producto y agregarlo a la lista
+    for categoria in lista_categorias:
+        if categoria['nombre_categoria'] == producto_template['categoria']:
+            categoria['productos_categoria'].append(producto_template)
+            mensaje = 'El producto se ha agregado correctamente'
+            agregado = True
+            break
         
-        # Crear el template del JSON total
-        template_completo = {
-            'categorias': lista_categorias
+    # Modificar los datos el archivo JSON de productos
+    modificarProductos(lista_categorias)
+
+    # Informar el estado de la operacion
+    respuesta = {
+        "mensaje": mensaje,
+        "estatus": agregado
         }
-
-        # Abrir nuevamente el archivo JSON de productos y sobreescribir los datos
-        with open('../DB/productos.json', 'w') as archivo:
-            json.dump(template_completo, archivo, indent = 6)
-            
-        # Cerrar el archivo
-        archivo.close()
-
-        # Informar el estado de la operacion
-        return jsonify(agregado)
+    return jsonify(respuesta)
 
 #--------------------------------------------------------------------------------------------
 # Ruta para eliminar una categoria
-@app.route('/api/categoria/<string:nombre_categoria>', methods = ['DELETE'])   
-def deleteCategoria(nombre_categoria: str):
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return jsonify('Error al intentar acceder a la base de datos')
-    else:
-        # Primero se lee el archivo para verificar que no se repita la categoria
-        archivo = open('../DB/productos.json', 'r')
+@app.route('/api/categoria', methods = ['DELETE'])   
+def deleteCategoria():
+    # Obtener los datos de los parametros
+    nombre_categoria = request.args.get('nombre_categoria', type = str)
+    
+    # Obtener la lista de todas las categorias
+    lista_categorias = listaCategorias()
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
+    # Bandera de estado
+    eliminada = False
+    mensaje = 'La categoria ingresada no existe.'
 
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
+    # Iterar la lista de productos por cada categoria encontrada
+    for categoria in lista_categorias:
+        if categoria['nombre_categoria'] == nombre_categoria:
+            lista_categorias.remove(categoria)
+            eliminada = True
+            mensaje = 'La categoria se ha eliminado correctamente.'
+            break
 
-        # Cerrar el archivo en modo lectura
-        archivo.close()
+    # Modificar los datos el archivo JSON de productos
+    modificarProductos(lista_categorias)
 
-        # Bandera de estado
-        eliminada = False
-
-        # Iterar la lista de productos por cada categoria encontrada
-        for categoria in lista_categorias:
-            if categoria['nombre_categoria'] == nombre_categoria:
-                lista_categorias.remove(categoria)
-                eliminada = True
-        
-        # Crear el objeto con el formato JSON deseado y los datos nuevos
-        productos_json = {
-            "categorias": lista_categorias
+    # Retornar True para indicar que no hay problemas
+    respuesta = {
+        "mensaje": mensaje,
+        "estatus": eliminada
         }
-
-        with open('../DB/productos.json', 'w') as archivo:
-            # Sobreescribir los datos del archivo json
-            json.dump(productos_json, archivo, indent = 6)
-
-        # Cerrar el archivo
-        archivo.close()
-
-        # Retornar True para indicar que no hay problemas
-        return jsonify(eliminada)
+    return jsonify(respuesta)
 
 #--------------------------------------------------------------------------------------------
 # Ruta para eliminar un producto dentro de una categoria
-@app.route('/api/producto/<string:id>/<string:nombre_categoria>', methods = ['DELETE'])
-def deleteProducto(id: str, nombre_categoria: str):
-    # Abrir el archivo JSON productos.json
-    try:
-        archivo = open('../DB/productos.json')
-        json.load(archivo)
-        archivo.close()
-    except:
-        # Cuando falla abrir archivo
-        print('No se ha podido abrir el archivo productos.json ')
-        return None
-    else:
-        # Primero se lee el archivo para verificar que no se repita la categoria
-        archivo = open('../DB/productos.json', 'r')
+@app.route('/api/producto', methods = ['DELETE'])
+def deleteProducto():
+    # Obtener los datos de los parametros
+    nombre_categoria = request.args.get('nombre_categoria', type = str)
+    id = request.args.get('id', type = str)
 
-        # JSON Object con los datos
-        datos = json.load(archivo)
+    # Obtener la lista de todas las categorias
+    lista_categorias = listaCategorias()
 
-        # Primero guardar los datos en variables
-        lista_categorias = datos['categorias']
+    # Eliminar el id del producto
+    deleteID(id)
 
-        # Una vez sacados los datos del archivo, se cierra el archivo JSON
-        archivo.close()
+    # Variable para verificar si se logró encontrar la categoría indicada por argumento
+    eliminado = False
+    mensaje = 'No se ha podido elimindar el producto.'
 
-        # Eliminar el id del producto
-        deleteID(id)
+    # Buscar la categoría a la que pertenece el producto y agregarlo a la lista
+    for categoria in lista_categorias:
+        if categoria['nombre_categoria'] != nombre_categoria:
+            continue
+        for producto in categoria['productos_categoria']:
+            if producto['id'] != id:
+                continue
+            categoria['productos_categoria'].remove(producto)
+            eliminado = True
+            mensaje = 'El producto se ha eliminado correctamente.'
+            break
 
-        # Variable para verificar si se logró encontrar la categoría indicada por argumento
-        eliminado = False
+    # Modificar los datos el archivo JSON de productos
+    modificarProductos(lista_categorias)
 
-        # Buscar la categoría a la que pertenece el producto y agregarlo a la lista
-        for categoria in lista_categorias:
-            if categoria['nombre_categoria'] == nombre_categoria:
-                for producto in categoria['productos_categoria']:
-                    if producto['id'] == id:
-                        categoria['productos_categoria'].remove(producto)
-                        eliminado = True
-                        break
-        
-        # Crear el template del JSON total
-        template_completo = {
-            'categorias': lista_categorias
+    # Informar que se ha realizado correctamente
+    respuesta = {
+        "mensaje": mensaje,
+        "estatus": eliminado
         }
+    return jsonify(respuesta)
 
-        # Abrir nuevamente el archivo JSON de productos y sobreescribir los datos
-        with open('../DB/productos.json', 'w') as archivo:
-            json.dump(template_completo, archivo, indent = 6)
-            
-        # Cerrar el archivo
-        archivo.close()
 
-        # Informar que se ha realizado correctamente
-        return jsonify(eliminado)
 
 if __name__ == '__main__':
     app.run(debug = True, port = 4000)

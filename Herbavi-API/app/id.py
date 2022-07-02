@@ -2,6 +2,8 @@ import json
 import random
 import string
 
+#--------------------------------------------------------------------------------------------
+# Funcion que retorna un nuevo ID de producto unico
 def generarNuevoID():
    # Abrir el archivo JSON productos.json
     try:
@@ -58,7 +60,8 @@ def generarNuevoID():
         # Retornar el nuevo id
         return random_id 
 
-# Funcion para eliminar un id del archivo JSON
+#--------------------------------------------------------------------------------------------
+# Funcion que elimina un ID de la lista cuando se elimina un Producto
 def deleteID(id: str):
    # Abrir el archivo JSON productos.json
     try:
