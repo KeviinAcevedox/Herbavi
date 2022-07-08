@@ -6,7 +6,7 @@ import bcrypt
 # Funcion que busca la lista de usuarios en el JSON y retorna una lista de Python
 def listaUsuarios():
     try:
-        archivo = open('../DB/usuarios.json')
+        archivo = open('DB/usuarios.json')
         json.load(archivo)
         archivo.close()
     except:
@@ -14,7 +14,7 @@ def listaUsuarios():
         print('No se ha podido abrir el archivo usuarios.json ')
         return None
     else:
-        archivo = open('../DB/usuarios.json')
+        archivo = open('DB/usuarios.json')
 
         # Cargar los datos del archivo
         listaUsuarios = json.load(archivo)
@@ -32,7 +32,7 @@ def listaUsuarios():
 def modificarUsuarios(usuarios):
 
     # Abrir el archivo JSON de usuarios y sobreescribir los datos
-    archivo = open('../DB/usuarios.json', 'w')
+    archivo = open('DB/usuarios.json', 'w')
    
     # Sobreescribir los nuevos datos en el archivo JSON
     json.dump(usuarios, archivo, indent = 6)
